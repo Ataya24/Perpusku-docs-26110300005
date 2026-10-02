@@ -1,0 +1,69 @@
+PERPUSKU - DAFTAR FITUR
+========================
+
+Semua fitur di bawah ini sudah selesai dibangun dan berjalan di produk.
+
+
+F-01  REGISTRASI, LOGIN, DAN PEMBEKUAN AKUN
+Pengguna  : Anggota (registrasi, login), Admin (pembekuan akun),
+            Pustakawan (login)
+Status    : SELESAI
+Deskripsi : Anggota mendaftar memakai NIM/NIP yang dicocokkan dengan data
+            akademik. Semua user login dengan NIM/NIP dan kata sandi. Admin
+            dapat membekukan dan mengaktifkan kembali akun anggota.
+
+
+F-02  PENCARIAN KATALOG
+Pengguna  : Semua user yang sudah login
+Status    : SELESAI
+Deskripsi : Mencari buku berdasarkan judul, penulis, atau ISBN. Hasil
+            menampilkan jumlah eksemplar yang tersedia.
+
+
+F-03  PEMINJAMAN BUKU
+Pengguna  : Anggota
+Status    : SELESAI
+Deskripsi : Peminjaman mandiri dengan memindai kode buku. Sistem memeriksa
+            keanggotaan, kuota, dan ketersediaan buku, lalu mencatat
+            peminjaman beserta tanggal jatuh tempo.
+
+
+F-04  PERPANJANGAN PEMINJAMAN
+Pengguna  : Anggota
+Status    : SELESAI
+Deskripsi : Peminjaman dapat diperpanjang secara manual oleh peminjam maupun
+            secara otomatis menjelang jatuh tempo. Tanggal jatuh tempo baru
+            tampil di halaman Peminjaman Saya.
+
+
+F-05  PENGEMBALIAN BUKU DAN PERHITUNGAN DENDA
+Pengguna  : Pustakawan
+Status    : SELESAI
+Deskripsi : Pustakawan memproses pengembalian dengan memindai kode buku.
+            Denda keterlambatan dihitung otomatis dan dicatat. Pembayaran
+            denda dilakukan tunai di meja pustakawan, lalu pustakawan
+            menandai denda sebagai lunas.
+
+
+F-06  RESERVASI BUKU
+Pengguna  : Anggota, Pustakawan
+Status    : SELESAI
+Deskripsi : Anggota dapat memesan buku yang semua eksemplarnya sedang
+            dipinjam dan melihat posisi antreannya. Buku yang kembali
+            ditahan 2 hari untuk pemesan pertama. Pustakawan dapat
+            membatalkan reservasi yang tidak diambil sampai batas waktunya.
+
+
+F-07  PENGELOLAAN KATALOG
+Pengguna  : Pustakawan
+Status    : SELESAI
+Deskripsi : Menambah, mengubah, dan menghapus data buku serta jumlah stok.
+            Buku yang masih dipinjam atau direservasi tidak dapat dihapus.
+
+
+F-08  LAPORAN BULANAN
+Pengguna  : Admin
+Status    : SELESAI
+Deskripsi : Rekap bulanan berisi jumlah peminjaman, buku yang paling sering
+            dipinjam, dan total denda. Admin dapat melihat dan mengunduhnya
+            sebagai PDF.

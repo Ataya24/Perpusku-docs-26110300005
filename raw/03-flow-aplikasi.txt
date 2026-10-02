@@ -1,0 +1,272 @@
+PERPUSKU - FLOW APLIKASI
+=========================
+
+Catatan penulisan:
+- Flow ditulis sebagai pseudocode tingkat tinggi, bukan kode sebenarnya.
+- Kata kunci: MULAI, SELESAI, JIKA, SELAIN ITU, UNTUK SETIAP, BERHENTI.
+- Baris yang diawali tanda # adalah komentar.
+
+
+-------------------------------------------------------------------------
+FLOW 1 - REGISTRASI, LOGIN, DAN PEMBEKUAN AKUN
+-------------------------------------------------------------------------
+
+1A. REGISTRASI (calon anggota)
+
+MULAI
+  calon anggota membuka halaman Daftar
+  calon anggota mengisi NIM/NIP, nama, dan kata sandi
+  cocokkan NIM/NIP dengan data akademik kampus
+  JIKA tidak ditemukan di data akademik
+      tampilkan "NIM/NIP tidak terdaftar", BERHENTI
+  JIKA NIM/NIP sudah punya akun
+      tampilkan "Akun sudah ada", BERHENTI
+  simpan akun baru:
+      peran = anggota, status = aktif,
+      masa_berlaku = tanggal akhir studi/kontrak dari data akademik
+  arahkan ke halaman login
+SELESAI
+
+1B. LOGIN (semua user)
+
+MULAI
+  user mengisi NIM/NIP dan kata sandi
+  JIKA cocok dengan akun tersimpan
+      masuk ke beranda, menu mengikuti peran
+  SELAIN ITU
+      tampilkan "NIM/NIP atau kata sandi salah"
+SELESAI
+
+1C. PEMBEKUAN AKUN (admin)
+
+MULAI
+  admin mencari akun anggota
+  admin memilih "Bekukan" atau "Aktifkan kembali"
+  ubah status akun sesuai pilihan admin
+SELESAI
+
+
+-------------------------------------------------------------------------
+FLOW 2 - PENCARIAN BUKU
+-------------------------------------------------------------------------
+
+MULAI
+  user mengetik kata kunci
+  cari buku yang judul, penulis, atau ISBN-nya cocok
+  tampilkan daftar hasil beserta stok_tersedia
+  JIKA user memilih satu buku
+      tampilkan detail buku
+SELESAI
+
+
+-------------------------------------------------------------------------
+FLOW 3 - PEMINJAMAN BUKU
+-------------------------------------------------------------------------
+
+Pelaku: peminjam (anggota)
+
+MULAI
+  peminjam memindai kode buku di kios layanan mandiri atau ponsel
+
+  # cek keanggotaan
+  Periksa status keanggotaan: harus aktif (belum kedaluwarsa dan tidak
+  dibekukan)
+  JIKA tidak aktif
+      tampilkan "Keanggotaan tidak aktif", BERHENTI
+
+  # cek kuota
+  hitung jumlah buku yang sedang dipinjam peminjam
+  JIKA jumlah sudah 5
+      tampilkan "Kuota 5 buku tercapai", BERHENTI
+
+  # cek stok
+  Cek stok: stok_tersedia buku harus lebih dari 0, ATAU peminjam memiliki
+  reservasi berstatus siap_diambil untuk buku ini
+  JIKA tidak memenuhi
+      tampilkan "Buku sedang habis", tawarkan reservasi (lihat FLOW 6),
+      BERHENTI
+
+  # proses peminjaman
+  catat peminjaman:
+      tanggal_pinjam = hari ini
+      tanggal_jatuh_tempo = hari ini + 14 hari
+      jumlah_perpanjangan = 0
+  JIKA peminjaman berasal dari reservasi siap_diambil
+      ubah status reservasi menjadi selesai
+      # stok_tersedia tidak dikurangi karena buku sudah ditahan
+  SELAIN ITU
+      kurangi stok_tersedia sebanyak 1
+  tampilkan bukti peminjaman beserta tanggal jatuh tempo
+SELESAI
+
+
+-------------------------------------------------------------------------
+FLOW 4 - PERPANJANGAN
+-------------------------------------------------------------------------
+
+4A. PERPANJANGAN MANUAL
+
+Pelaku: peminjam
+
+MULAI
+  peminjam membuka halaman Peminjaman Saya
+  peminjam memilih satu peminjaman yang sedang berjalan, tekan "Perpanjang"
+
+  Pastikan akun peminjam masih berlaku dan tidak sedang dibekukan
+  JIKA tidak
+      tampilkan "Akun tidak dapat memperpanjang", BERHENTI
+
+  JIKA jumlah_perpanjangan peminjaman ini sudah 1
+      tampilkan "Batas perpanjangan tercapai", BERHENTI
+
+  JIKA ada reservasi berstatus menunggu untuk buku ini
+      tampilkan "Buku sedang ditunggu anggota lain", BERHENTI
+
+  # periksa denda
+  JIKA peminjam punya denda berstatus belum_lunas
+      tampilkan "Selesaikan denda terlebih dahulu", BERHENTI
+  UNTUK SETIAP buku lain milik peminjam yang sudah lewat jatuh tempo
+      denda_berjalan = (jumlah hari terlambat x Rp1.000)
+  JIKA total denda_berjalan lebih dari 0
+      tampilkan "Selesaikan denda terlebih dahulu", BERHENTI
+
+  tanggal_jatuh_tempo baru = tanggal_jatuh_tempo lama + 7 hari
+  tambah jumlah_perpanjangan sebanyak 1
+  tampilkan tanggal jatuh tempo baru
+SELESAI
+
+4B. PERPANJANGAN OTOMATIS
+
+MULAI
+  Menjelang tanggal jatuh tempo, peminjaman diperpanjang otomatis.
+  Perpanjangan otomatis dilakukan satu kali per peminjaman.
+  Tanggal jatuh tempo baru ditampilkan di halaman Peminjaman Saya.
+SELESAI
+
+
+-------------------------------------------------------------------------
+FLOW 5 - PENGEMBALIAN BUKU
+-------------------------------------------------------------------------
+
+Pelaku: pustakawan
+
+MULAI
+  pustakawan memindai kode buku yang dikembalikan
+  cari peminjaman berjalan untuk buku tersebut
+  JIKA tidak ditemukan
+      tampilkan "Peminjaman tidak ditemukan", BERHENTI
+
+  catat tanggal_kembali = hari ini
+
+  # hitung denda
+  hari_terlambat = tanggal_kembali - tanggal_jatuh_tempo
+  JIKA hari_terlambat lebih dari 0
+      denda = hari_terlambat x Rp1.000
+      catat denda dengan status belum_lunas
+      tampilkan jumlah denda kepada pustakawan
+      peminjam membayar tunai di meja
+      pustakawan mengubah status denda menjadi lunas
+
+  # perbarui stok
+  JIKA ada reservasi berstatus menunggu untuk buku ini
+      ambil reservasi dengan waktu_reservasi paling awal
+      ubah statusnya menjadi siap_diambil
+      batas_ambil = hari ini + 2 hari
+      # stok_tersedia tidak bertambah, buku ditahan
+  SELAIN ITU
+      tambah stok_tersedia sebanyak 1
+SELESAI
+
+
+-------------------------------------------------------------------------
+FLOW 6 - RESERVASI
+-------------------------------------------------------------------------
+
+6A. MEMBUAT RESERVASI (member)
+
+MULAI
+  member membuka detail buku, tekan "Reservasi"
+
+  Cek apakah member valid: masa keanggotaan belum habis dan akun tidak
+  dibekukan
+  JIKA tidak valid
+      tampilkan "Keanggotaan tidak aktif", BERHENTI
+
+  Periksa ketersediaan buku
+  JIKA masih ada eksemplar di rak (stok_tersedia lebih dari 0)
+      tampilkan "Buku tersedia, silakan pinjam langsung", BERHENTI
+
+  JIKA member sudah punya reservasi menunggu untuk buku yang sama
+      tampilkan "Sudah ada di antrean", BERHENTI
+
+  simpan reservasi: waktu_reservasi = sekarang, status = menunggu
+  tampilkan posisi antrean member
+SELESAI
+
+6B. MEMBATALKAN RESERVASI YANG TIDAK DIAMBIL (pustakawan)
+
+MULAI
+  pustakawan membuka daftar reservasi siap_diambil yang batas_ambil-nya
+  sudah lewat
+  pustakawan memilih reservasi, tekan "Batalkan"
+  ubah status reservasi menjadi batal
+  JIKA ada reservasi menunggu berikutnya untuk buku yang sama
+      ubah status reservasi berikutnya menjadi siap_diambil
+      batas_ambil = hari ini + 2 hari
+  SELAIN ITU
+      tambah stok_tersedia sebanyak 1
+SELESAI
+
+
+-------------------------------------------------------------------------
+FLOW 7 - PENGELOLAAN KATALOG
+-------------------------------------------------------------------------
+
+Pelaku: pustakawan
+
+7A. TAMBAH BUKU
+MULAI
+  pustakawan mengisi ISBN, judul, penulis, dan stok_total
+  simpan buku baru dengan stok_tersedia = stok_total
+SELESAI
+
+7B. UBAH BUKU
+MULAI
+  pustakawan memilih buku, mengubah data yang perlu diubah
+  JIKA stok_total diubah
+      sesuaikan stok_tersedia dengan selisih perubahan stok_total
+  simpan perubahan
+SELESAI
+
+7C. HAPUS BUKU
+MULAI
+  pustakawan memilih buku, tekan "Hapus"
+  JIKA ada peminjaman berjalan atau reservasi aktif untuk buku ini
+      tampilkan "Buku masih dipakai, tidak dapat dihapus", BERHENTI
+  hapus buku dari katalog
+SELESAI
+
+
+-------------------------------------------------------------------------
+FLOW 8 - LAPORAN BULANAN
+-------------------------------------------------------------------------
+
+8A. PENYUSUNAN (terjadwal)
+
+MULAI
+  setiap tanggal 1 pukul 01:00
+  hitung jumlah peminjaman bulan sebelumnya
+  tentukan 10 buku yang paling sering dipinjam
+  jumlahkan denda yang tercatat pada bulan tersebut
+  simpan hasil rekap
+SELESAI
+
+8B. MELIHAT LAPORAN (admin)
+
+MULAI
+  admin membuka halaman Laporan
+  admin memilih bulan
+  tampilkan rekap bulan tersebut
+  JIKA admin menekan "Unduh"
+      berikan file PDF
+SELESAI

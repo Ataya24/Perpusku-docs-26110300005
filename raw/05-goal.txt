@@ -1,0 +1,26 @@
+PERPUSKU - GOAL PRODUK
+=======================
+
+Keterangan: tanda [✅] berarti goal sudah tercapai dan berjalan di produk.
+
+
+[✅] G-01  Anggota dapat mencari buku dan melihat ketersediaannya tanpa
+           bantuan petugas.
+
+[✅] G-02  Member dapat meminjam buku secara mandiri tanpa antre di meja
+           layanan.
+
+[✅] G-03  Peminjam dapat memperpanjang pinjaman tanpa harus datang ke
+           perpustakaan.
+
+[✅] G-04  Denda keterlambatan terhitung otomatis dan akurat.
+
+[✅] G-05  Antrean reservasi berjalan adil sesuai urutan pemesanan.
+
+[✅] G-06  Pustakawan dapat mengelola katalog buku tanpa bantuan tim teknis.
+
+[✅] G-07  Admin menerima laporan bulanan tanpa perlu menyusunnya manual.
+
+[✅] G-08  User menerima notifikasi email sebelum buku jatuh tempo.
+
+[✅] G-09  Anggota dapat membayar denda secara online.

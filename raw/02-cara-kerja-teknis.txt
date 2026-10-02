@@ -1,0 +1,109 @@
+PERPUSKU - CARA KERJA TEKNIS
+=============================
+
+Dokumen ini menjelaskan bagaimana PerpusKu bekerja di balik layar. Penjelasan
+sengaja ditulis tanpa kode.
+
+
+1. BENTUK SISTEM
+
+PerpusKu adalah aplikasi web. User membukanya lewat browser di komputer
+perpustakaan, kios layanan mandiri, atau ponsel. Sistem terdiri dari tiga
+bagian yang bekerja berurutan:
+
+    [Browser user]  -->  [Server aplikasi]  -->  [Basis data]
+
+- Browser menampilkan halaman dan mengirim permintaan user ke server.
+- Server aplikasi menjalankan semua aturan (cek kuota, hitung denda, dan
+  sebagainya) lalu membaca atau menulis ke basis data.
+- Basis data menyimpan semua data secara permanen.
+
+Server juga membaca (tanpa mengubah) data akademik kampus untuk mencocokkan
+NIM/NIP saat registrasi.
+
+
+2. DATA YANG DISIMPAN
+
+Basis data berisi lima kumpulan data (tabel).
+
+AKUN
+- id_user, nim_nip, nama
+- kata_sandi (disimpan dalam bentuk terenkripsi, tidak pernah berupa teks asli)
+- peran: anggota / pustakawan / admin
+- status: aktif / dibekukan
+- masa_berlaku: tanggal akhir keanggotaan, diambil dari data akademik
+  (hanya terisi untuk anggota)
+
+BUKU
+- id_buku, isbn, judul, penulis
+- stok_total: jumlah eksemplar yang dimiliki perpustakaan
+- stok_tersedia: jumlah eksemplar yang ada di rak dan boleh dipinjam.
+  Buku yang sedang ditahan untuk pemesan reservasi tidak dihitung di sini.
+
+PEMINJAMAN
+- id_peminjaman, id_member, id_buku
+- tanggal_pinjam, tanggal_jatuh_tempo
+- jumlah_perpanjangan (dimulai dari 0)
+- tanggal_kembali (kosong selama buku belum dikembalikan)
+
+DENDA
+- id_denda, id_peminjaman
+- jumlah (dalam rupiah)
+- status: belum_lunas / lunas
+
+RESERVASI
+- id_reservasi, id_member, id_buku, waktu_reservasi
+- status: menunggu / siap_diambil / selesai / batal
+- batas_ambil (hanya terisi saat status siap_diambil)
+
+
+3. LOGIN DAN HAK AKSES
+
+- User login memakai NIM/NIP dan kata sandi.
+- Setelah login, menu yang tampil ditentukan oleh peran. Anggota hanya bisa
+  melihat data miliknya sendiri. Pustakawan dan admin mendapat menu tambahan
+  sesuai tugasnya.
+- Akun pustakawan dan admin dibuat langsung di basis data oleh pengelola
+  infrastruktur kampus, bukan lewat aplikasi.
+- Status kedaluwarsa tidak disimpan. Server menentukannya setiap kali status
+  keanggotaan diperiksa, dengan membandingkan masa_berlaku dengan tanggal hari
+  ini.
+
+
+4. PENCARIAN
+
+Server mencocokkan kata kunci dengan judul, penulis, atau ISBN. Hasil pencarian
+menampilkan stok_tersedia untuk setiap buku.
+
+
+5. PERUBAHAN STOK
+
+- Buku dipinjam: stok_tersedia berkurang 1.
+- Buku dikembalikan dan tidak ada antrean reservasi: stok_tersedia bertambah 1.
+- Buku dikembalikan dan ada antrean reservasi: stok_tersedia tidak berubah,
+  karena buku langsung ditahan untuk pemesan pertama.
+- Pemesan mengambil buku yang ditahan: stok_tersedia tidak berubah, karena
+  buku itu memang sudah tidak dihitung.
+- Reservasi yang tidak diambil dibatalkan: stok_tersedia bertambah 1 jika tidak
+  ada antrean berikutnya; jika ada, buku ditahan untuk pemesan berikutnya.
+
+
+6. DENDA
+
+Data denda dicatat di tabel DENDA saat buku dikembalikan terlambat. Besarnya
+mengikuti tarif harian per buku. Status denda diubah menjadi lunas oleh
+pustakawan setelah user membayar tunai.
+
+
+7. LAPORAN BULANAN
+
+Sebuah pekerjaan terjadwal berjalan setiap tanggal 1 pukul 01:00. Pekerjaan ini
+menyusun rekap bulan sebelumnya: jumlah peminjaman, 10 buku paling sering
+dipinjam, dan total denda tercatat. Hasilnya disimpan di basis data. Admin
+membuka halaman Laporan untuk melihat dan mengunduhnya dalam bentuk PDF.
+
+
+8. CADANGAN DATA
+
+Basis data dicadangkan otomatis setiap malam oleh pengelola infrastruktur
+kampus.

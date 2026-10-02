@@ -1,0 +1,73 @@
+PERPUSKU - DESKRIPSI PRODUK
+============================
+
+1. TENTANG PERPUSKU
+
+PerpusKu adalah sistem peminjaman buku untuk perpustakaan kampus. Sebelum
+PerpusKu ada, semua peminjaman dicatat tangan di buku besar. Akibatnya denda
+sering salah hitung dan petugas sulit melacak buku mana yang sedang dipinjam
+oleh siapa. Sekarang seluruh pencatatan dilakukan di satu sistem, dan PerpusKu
+sudah berjalan penuh di perpustakaan pusat.
+
+
+2. SIAPA SAJA PENGGUNANYA
+
+- Anggota
+  Mahasiswa dan dosen. Anggota mencari buku, meminjam, memperpanjang,
+  memesan (reservasi) buku yang sedang habis, dan melihat daftar pinjamannya
+  sendiri.
+
+- Pustakawan
+  Petugas di meja layanan. Pustakawan memproses pengembalian buku, mencatat
+  pembayaran denda, mengelola data katalog buku, dan menangani reservasi yang
+  tidak diambil.
+
+- Admin
+  Pengelola sistem. Admin melihat laporan bulanan dan dapat membekukan atau
+  mengaktifkan kembali akun anggota.
+
+
+3. CARA PEMAKAIAN SECARA UMUM
+
+Anggota mendaftar satu kali memakai NIM (mahasiswa) atau NIP (dosen). Setelah
+itu anggota login, mencari buku di katalog, lalu meminjam secara mandiri di
+kios layanan mandiri atau lewat ponsel saat berada di perpustakaan, dengan
+memindai kode yang ada pada buku. Pengembalian buku dilakukan di meja layanan
+dan diproses oleh pustakawan.
+
+
+4. ATURAN PEMINJAMAN
+
+- Masa pinjam
+  7 hari sejak tanggal pinjam.
+
+- Kuota pinjam
+  3 buku sekaligus untuk satu anggota.
+
+- Perpanjangan
+  Maksimal 1 kali per peminjaman, menambah 7 hari. Perpanjangan hanya
+  diizinkan jika buku tidak sedang ditunggu anggota lain dan anggota tidak
+  memiliki denda.
+
+- Denda keterlambatan
+  Rp1.000 per hari per buku, dihitung mulai hari setelah jatuh tempo sampai
+  buku dikembalikan.
+
+- Pembayaran denda
+  Tunai di meja pustakawan.
+
+- Reservasi
+  Hanya untuk buku yang semua eksemplarnya sedang dipinjam. Antrean mengikuti
+  urutan reservasi. Setelah buku dikembalikan, buku ditahan selama 2 hari untuk
+  anggota pertama di antrean.
+
+- Keanggotaan
+  Anggota harus berstatus aktif untuk meminjam, memperpanjang, dan reservasi.
+  Keanggotaan aktif berarti masa berlakunya belum habis dan akunnya tidak
+  sedang dibekukan admin.
+
+
+5. DAFTAR FITUR
+
+Daftar fitur yang sudah selesai ada di file 04-daftar-fitur.txt. Tujuan
+yang ingin dicapai produk ada di file 05-goal.txt.
