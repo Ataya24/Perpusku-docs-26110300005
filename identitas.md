@@ -9,7 +9,7 @@ File ini adalah tanda bahwa **repo-mu sudah jadi** dan bisa dikenali dosen. Isi 
 | Kelas | | SDF01
 | Username GitHub | | Ataya24
 | URL repo-mu | | https://github.com/Ataya24/perpusku-docs-26110300005-
-| Tanggal repo dibuat | | 02/10/26
+| Tanggal repo dibuat | | 02-10-26
 
 > Tabel ini ditulis dengan Markdown. Tanda `|` memisahkan kolom. Isi dengan mengetik di antara dua tanda `|` pada kolom kanan, jangan menghapus tanda-tandanya.
 
