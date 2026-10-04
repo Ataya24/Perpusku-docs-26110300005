@@ -1,0 +1,33 @@
+@startuml
+actor Pustakawan
+participant "Pengembalian dan Denda" as ReturnFine
+participant "Reservasi" as Reserve
+participant "Katalog Buku" as Catalog
+
+Pustakawan -> ReturnFine : Proses pengembalian buku
+ReturnFine -> ReturnFine : Cari peminjaman aktif
+alt Peminjaman tidak ditemukan
+  ReturnFine --> Pustakawan : Gagal, data tidak ada
+else Ditemukan
+  ReturnFine -> ReturnFine : Catat tanggal kembali
+  ReturnFine -> ReturnFine : Hitung keterlambatan
+
+  alt Terlambat
+    ReturnFine -> ReturnFine : Catat denda belum_lunas
+    ReturnFine --> Pustakawan : Tampilkan jumlah denda
+    Pustakawan -> ReturnFine : Konfirmasi bayar tunai
+    ReturnFine -> ReturnFine : Ubah status denda jadi lunas
+  else Tepat waktu
+  end
+
+  ReturnFine -> Reserve : Cek antrean reservasi
+  alt Ada antrean menunggu
+    Reserve -> Reserve : Ubah antrean terdepan jadi siap_diambil
+    Reserve -> Reserve : Tetapkan batas_ambil +2 hari
+    ReturnFine --> Pustakawan : Buku ditahan untuk reservasi
+  else Tidak ada antrean
+    ReturnFine -> Catalog : Tambah stok_tersedia
+    ReturnFine --> Pustakawan : Pengembalian selesai
+  end
+end
+@enduml

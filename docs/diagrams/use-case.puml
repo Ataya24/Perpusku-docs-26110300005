@@ -1,0 +1,47 @@
+@startuml
+left to right direction
+actor Anggota
+actor Pustakawan
+actor Admin
+
+rectangle "Sistem PerpusKu" {
+  usecase "Registrasi" as UC1
+  usecase "Login" as UC2
+  usecase "Cari Buku" as UC3
+  usecase "Pinjam Buku" as UC4
+  usecase "Perpanjang Peminjaman" as UC5
+  usecase "Reservasi Buku" as UC6
+  usecase "Lihat Pinjaman Saya" as UC7
+  usecase "Proses Pengembalian" as UC8
+  usecase "Kelola Denda (Lunas)" as UC9
+  usecase "Kelola Katalog" as UC10
+  usecase "Kelola Reservasi Kedaluwarsa" as UC11
+  usecase "Bekukan/Aktifkan Akun" as UC12
+  usecase "Lihat & Unduh Laporan" as UC13
+  usecase "Validasi Status Anggota" as UC14
+  usecase "Hitung Denda" as UC15
+}
+
+Anggota -- UC1
+Anggota -- UC2
+Anggota -- UC3
+Anggota -- UC4
+Anggota -- UC5
+Anggota -- UC6
+Anggota -- UC7
+
+Pustakawan -- UC2
+Pustakawan -- UC8
+Pustakawan -- UC9
+Pustakawan -- UC10
+Pustakawan -- UC11
+
+Admin -- UC2
+Admin -- UC12
+Admin -- UC13
+
+UC4 .> UC14 : <<include>>
+UC5 .> UC14 : <<include>>
+UC6 .> UC14 : <<include>>
+UC8 .> UC15 : <<include>>
+@enduml

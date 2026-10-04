@@ -1,0 +1,38 @@
+@startuml
+actor Anggota
+participant "Autentikasi Akun" as Auth
+participant "Peminjaman" as Loan
+participant "Katalog Buku" as Catalog
+participant "Reservasi" as Reserve
+
+Anggota -> Loan : Ajukan peminjaman buku
+Loan -> Auth : Validasi status anggota
+Auth --> Loan : Aktif / tidak aktif
+
+alt Anggota tidak aktif
+  Loan --> Anggota : Tolak peminjaman
+else Anggota aktif
+  Loan -> Loan : Cek kuota (maks. 3 buku)
+  alt Kuota terlampaui
+    Loan --> Anggota : Tolak (kuota penuh)
+  else Kuota tersedia
+    Loan -> Catalog : Cek stok buku
+    Catalog --> Loan : Stok tersedia?
+    alt Stok tidak tersedia
+      Loan -> Reserve : Cek reservasi siap_diambil milik anggota
+      Reserve --> Loan : Ada / tidak
+      alt Tidak ada reservasi siap_diambil
+        Loan --> Anggota : Tolak + tawarkan reservasi
+      else Ada reservasi siap_diambil
+        Loan -> Loan : Catat peminjaman (jatuh tempo 7 hari)
+        Loan -> Reserve : Tandai reservasi selesai
+        Loan --> Anggota : Bukti peminjaman
+      end
+    else Stok tersedia
+      Loan -> Loan : Catat peminjaman (jatuh tempo 7 hari)
+      Loan -> Catalog : Kurangi stok_tersedia
+      Loan --> Anggota : Bukti peminjaman
+    end
+  end
+end
+@enduml

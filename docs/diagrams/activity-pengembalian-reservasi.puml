@@ -1,0 +1,50 @@
+@startuml
+start
+partition "Pustakawan" {
+  :Pindai kode buku kembali;
+}
+partition "Pengembalian dan Denda" {
+  :Cari peminjaman aktif;
+}
+if (Peminjaman ditemukan?) then (Ya)
+  partition "Pengembalian dan Denda" {
+    :Catat tanggal kembali;
+    :Hitung keterlambatan;
+  }
+  if (Terlambat?) then (Ya)
+    partition "Pengembalian dan Denda" {
+      :Catat denda belum_lunas;
+    }
+    partition "Pustakawan" {
+      :Terima pembayaran tunai;
+    }
+    partition "Pengembalian dan Denda" {
+      :Ubah status denda = lunas;
+    }
+  else (Tidak)
+  endif
+
+  partition "Reservasi" {
+    :Cek antrean menunggu
+untuk buku ini;
+  }
+  if (Ada antrean?) then (Ya)
+    partition "Reservasi" {
+      :Ubah antrean terdepan
+menjadi siap_diambil;
+      :Set batas_ambil = +2 hari;
+    }
+    stop
+  else (Tidak)
+    partition "Katalog Buku" {
+      :Tambah stok_tersedia +1;
+    }
+    stop
+  endif
+else (Tidak)
+  partition "Pustakawan" {
+    :Tampilkan "Peminjaman tidak ditemukan";
+  }
+  stop
+endif
+@enduml

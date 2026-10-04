@@ -1,0 +1,64 @@
+@startuml
+start
+partition "Anggota" {
+  :Isi data registrasi
+  (NIM/NIP, nama, kata sandi);
+}
+partition "Autentikasi Akun" {
+  :Validasi data wajib;
+}
+partition "Integrasi Akademik" {
+  :Cocokkan NIM/NIP
+dengan data akademik;
+}
+if (NIM/NIP valid?) then (Ya)
+  partition "Autentikasi Akun" {
+    :Cek akun duplikat;
+  }
+  if (Akun sudah ada?) then (Ya)
+    partition "Anggota" {
+      :Tampilkan "Akun sudah ada";
+    }
+    stop
+  else (Tidak)
+    partition "Autentikasi Akun" {
+      :Simpan akun anggota aktif;
+    }
+    partition "Anggota" {
+      :Login ke sistem;
+      :Pindai kode buku;
+    }
+    partition "Peminjaman" {
+      :Cek status anggota aktif;
+      :Cek kuota pinjam (maks. 3 buku);
+    }
+    if (Lolos validasi?) then (Ya)
+      partition "Katalog Buku" {
+        :Cek stok/reservasi siap diambil;
+      }
+      if (Buku tersedia?) then (Ya)
+        partition "Peminjaman" {
+          :Catat peminjaman
+(jatuh tempo 7 hari);
+        }
+        stop
+      else (Tidak)
+        partition "Reservasi" {
+          :Tawarkan reservasi;
+        }
+        stop
+      endif
+    else (Tidak)
+      partition "Anggota" {
+        :Tampilkan alasan penolakan;
+      }
+      stop
+    endif
+  endif
+else (Tidak)
+  partition "Anggota" {
+    :Tampilkan "NIM/NIP tidak terdaftar";
+  }
+  stop
+endif
+@enduml
