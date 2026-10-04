@@ -14,11 +14,24 @@
 - Keputusan dokumentasi saat ini: pembayaran denda dilakukan **tunai** di meja pustakawan.
 - Konflik sumber: goal produk menyebut opsi pembayaran online; dicatat sebagai kebutuhan klarifikasi.
 
+### Alur operasional ringkas
+
+1. Pustakawan memindai buku yang dikembalikan.
+2. Sistem mencari peminjaman aktif dan menghitung keterlambatan.
+3. Jika terlambat, sistem membuat catatan denda dan menunggu pelunasan tunai.
+4. Setelah lunas, status denda diperbarui.
+5. Sistem memperbarui stok atau meneruskan buku ke antrean reservasi.
+
+### Kaitan langsung dengan isu
+
+- Isu [#11](https://github.com/Ataya24/perpusku-docs-26110300005-/issues/11): keputusan operasional sementara adalah pembayaran tunai; opsi online didokumentasikan sebagai gap keputusan.
+
 ## Hubungan
 
 - Mengakhiri transaksi dari [Peminjaman](./peminjaman.md).
 - Memperbarui ketersediaan/penahanan stok bersama [Katalog Buku](./katalog-buku.md) dan [Reservasi](./reservasi.md).
 - Status denda dipakai [Perpanjangan](./perpanjangan.md) untuk validasi.
+- Data denda menjadi bagian rekap [Laporan](./laporan.md).
 
 ## Alasan pengelompokan
 

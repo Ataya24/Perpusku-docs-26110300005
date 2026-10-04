@@ -9,10 +9,19 @@
 
 - Perpanjangan manual maksimal 1 kali per transaksi, menambah 7 hari.
 - Syarat manual: akun aktif, belum mencapai batas perpanjangan, buku tidak sedang ditunggu anggota lain, dan tidak ada denda belum lunas.
-- Perpanjangan otomatis disebut tersedia di sumber, namun detail berikut belum dirinci:
+
+### Perpanjangan otomatis (status spesifikasi)
+
+- Sumber menyebut perpanjangan otomatis tersedia menjelang jatuh tempo.
+- Aturan rinci yang **belum tersedia**:
   - pemicu waktu tepatnya,
-  - kondisi pengecualian (contoh: antrean reservasi, denda, akun nonaktif),
-  - mekanisme notifikasi ke anggota.
+  - kondisi pengecualian final (antrean reservasi, denda, akun nonaktif),
+  - mekanisme notifikasi kepada anggota,
+  - jejak audit kapan perpanjangan otomatis dieksekusi.
+
+### Kaitan langsung dengan isu
+
+- Isu [#12](https://github.com/Ataya24/perpusku-docs-26110300005-/issues/12): modul ini menandai bahwa perpanjangan otomatis adalah fitur yang ada di sumber, tetapi spesifikasi operasionalnya belum lengkap.
 
 ## Hubungan
 
