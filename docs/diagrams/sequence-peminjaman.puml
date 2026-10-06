@@ -14,10 +14,10 @@ title Sequence Diagram: Peminjaman Buku Mandiri oleh Anggota
 
 actor "Anggota" as Member
 box "Sistem PerpusKu" #FAFAFA
-  participant "Peminjaman" as Loan
-  participant "Autentikasi Akun" as Auth
-  participant "Reservasi" as Resv
-  participant "Katalog Buku" as Catalog
+  participant "Peminjaman" as Loan
+  participant "Autentikasi Akun" as Auth
+  participant "Reservasi" as Resv
+  participant "Katalog Buku" as Catalog
 end box
 
 Member -> Loan : pindaiKodeBuku(id_buku)
@@ -34,21 +34,21 @@ Loan -> Resv : periksaReservasiSiapDiambil(id_member, id_buku)
 activate Resv
 
 alt Anggota memiliki reservasi siap_diambil
-  Resv --> Loan : adaReservasi(id_reservasi)
-  Loan -> Resv : selesaikanReservasi(id_reservasi)
-  note right of Resv
-    Status reservasi diubah jadi 'selesai'.
-    Stok rak tidak dikurangi karena buku
-    sudah ditahan sebelumnya.
-  end note
-  Resv --> Loan : konfirmasiSelesai
+  Resv --> Loan : adaReservasi(id_reservasi)
+  Loan -> Resv : selesaikanReservasi(id_reservasi)
+  note right of Resv
+    Status reservasi diubah jadi 'selesai'.
+    Stok rak tidak dikurangi karena buku
+    sudah ditahan sebelumnya.
+  end note
+  Resv --> Loan : konfirmasiSelesai
 else Peminjaman biasa (tidak ada reservasi)
-  Resv --> Loan : tidakAdaReservasi
-  deactivate Resv
-  Loan -> Catalog : kurangiStokTersedia(id_buku)
-  activate Catalog
-  Catalog --> Loan : konfirmasiStokDikurangi
-  deactivate Catalog
+  Resv --> Loan : tidakAdaReservasi
+  deactivate Resv
+  Loan -> Catalog : kurangiStokTersedia(id_buku)
+  activate Catalog
+  Catalog --> Loan : konfirmasiStokDikurangi
+  deactivate Catalog
 end
 
 Loan -> Loan : simpanTransaksi(tgl_pinjam = hari ini, tgl_jatuh_tempo = hari ini + 7)
