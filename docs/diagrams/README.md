@@ -1,96 +1,103 @@
-# Diagram Alur dan UML PerpusKu
+# Gambar Alur Kerja dan Rancangan Sistem PerpusKu
 
-Halaman ini menjelaskan alur kerja (*activity diagram*) dan diagram UML (*use case* serta *sequence diagram*) untuk sistem PerpusKu dengan bahasa yang lebih sederhana dan mudah dipahami. Seluruh diagram ini dibuat berdasarkan pembagian modul yang sudah disusun sebelumnya.
+Halaman ini menyajikan activity diagram dan diagram rancangan sistem use case dan sequence diagram untuk PerpusKu. Seluruh penjelasan ditulis dengan kalimat yang jelas agar mudah dipahami.
 
 ---
 
-## 1. Diagram Alur Kerja (Activity Diagram)
+## 1. Activity Diagram
 
-### 1.1 Daftar Akun Baru dan Peminjaman Buku Mandiri
-Diagram ini memperlihatkan proses dari awal seseorang mendaftar sebagai anggota perpustakaan hingga cara mereka meminjam buku sendiri lewat ponsel atau mesin di perpustakaan.
+### 1.1 Pendaftaran Akun dan Peminjaman Buku Mandiri
+
+Diagram ini memperlihatkan alur anggota perpustakaan, mulai dari pertama kali mendaftar hingga berhasil meminjam buku sendiri di perpustakaan.
 
 ![Activity Diagram Registrasi dan Peminjaman Buku](img/activity-registrasi-peminjaman.png)
 
-*File PlantUML:* [`activity-registrasi-peminjaman.puml`](activity-registrasi-peminjaman.puml)
+*Berkas PlantUML:* [`activity-registrasi-peminjaman.puml`](activity-registrasi-peminjaman.puml)
 
-**Penjelasan Singkat:**
-Proses dimulai saat anggota baru mendaftar (datanya otomatis dicek dengan data kampus), lalu dilanjutkan dengan proses peminjaman buku. Sebelum buku bisa dipinjam, sistem akan mengecek tiga hal:
-1. Apakah keanggotaan masih aktif?
-2. Apakah jumlah buku yang dipinjam belum melewati batas maksimal (maksimal 3 buku)?
-3. Apakah buku yang dicari benar-benar tersedia di rak atau sudah dipesan sebelumnya? 
+**Penjelasan Alur:**
+Proses diawali saat calon anggota mendaftar (identitasnya dicocokkan otomatis dengan data universitas). Saat ingin meminjam buku lewat ponsel atau kios mandiri, sistem akan memeriksa tiga syarat penting:
+1. Apakah akun anggota masih aktif (belum habis masa berlakunya dan tidak sedang dibekukan)?
+2. Apakah jumlah buku yang sedang dipinjam belum mencapai batas kuota (maksimal 3 buku)?
+3. Apakah buku yang ingin dipinjam tersedia di rak, atau merupakan buku pesanan yang memang sudah siap diambil untuk anggota tersebut?
 
-Jika semua syarat terpenuhi, peminjaman akan dicatat untuk durasi 7 hari. Jika ada syarat yang gagal, proses otomatis dihentikan.
+Jika semua syarat terpenuhi, sistem akan mencatat peminjaman selama 7 hari dan menampilkan bukti peminjaman. Jika ada syarat yang tidak terpenuhi, sistem akan menampilkan pesan pemberitahuan dan proses pinjam dihentikan.
 
 ---
 
-### 1.2 Pengembalian Buku, Perhitungan Denda, dan Pengaturan Antrean
-Diagram ini memperlihatkan apa yang terjadi saat buku dikembalikan ke meja petugas perpustakaan.
+### 1.2 Pengembalian Buku, Perhitungan Denda, dan Penanganan Antrean
+
+Diagram ini memperlihatkan alur kerja di meja layanan saat buku fisik dikembalikan ke petugas perpustakaan.
 
 ![Activity Diagram Pengembalian dan Reservasi](img/activity-pengembalian-reservasi.png)
 
-*File PlantUML:* [`activity-pengembalian-reservasi.puml`](activity-pengembalian-reservasi.puml)
+*Berkas PlantUML:* [`activity-pengembalian-reservasi.puml`](activity-pengembalian-reservasi.puml)
 
-**Penjelasan Singkat:**
-Petugas memindai kode buku yang dikembalikan. Jika telat mengembalikan, sistem otomatis menghitung denda sebesar Rp1.000 per hari, lalu petugas menerima pembayaran tunainya. 
+**Penjelasan Alur:**
+Petugas memindai kode buku yang diserahkan peminjam. Jika pengembalian terlambat melewati tanggal jatuh tempo, sistem secara otomatis menghitung denda sebesar Rp1.000 per hari, mencatatnya, lalu petugas menerima pembayaran uang tunai langsung di meja layanan. 
 
-Setelah itu, sistem mengecek apakah ada orang lain yang sedang mengantre (*reservasi*) untuk meminjam buku tersebut:
-* **Jika ada yang mengantre:** Buku langsung disimpan selama 2 hari khusus untuk orang pertama di antrean tersebut.
-* **Jika tidak ada yang mengantre:** Buku langsung dikembalikan ke rak dan stok buku bertambah 1.
+Setelah denda diselesaikan, sistem memeriksa apakah ada anggota lain yang sedang mengantre memesan buku tersebut:
+- **Jika ada antrean:** Buku langsung disimpan selama 2 hari khusus untuk pemesan nomor satu di antrean (stok rak tidak bertambah).
+- **Jika tidak ada antrean:** Buku langsung dikembalikan ke rak koleksi dan stok buku yang siap dipinjam bertambah 1.
 
 ---
 
-## 2. Diagram UML
+## 2. Unified Modeling Language (UML)
 
-### 2.1 Peta Fitur Sistem (Use Case Diagram)
-Diagram ini menggambarkan batasan sistem PerpusKu, siapa saja yang menggunakannya, dan apa saja hal yang bisa mereka lakukan.
+### 2.1 Peta Peran Pengguna dan Fitur (Use Case Diagram)
+
+Diagram ini merangkum siapa saja yang berinteraksi dengan PerpusKu dan apa saja yang bisa mereka lakukan di dalam PerpusKu.
 
 ![Use Case Diagram PerpusKu](img/use-case.png)
 
-*File PlantUML:* [`use-case.puml`](use-case.puml)
+*Berkas PlantUML:* [`use-case.puml`](use-case.puml)
 
-**Penjelasan Singkat:**
-Sistem ini digunakan oleh tiga pengguna utama: **Anggota**, **Pustakawan**, dan **Admin**, serta dibantu oleh **Sistem Akademik Kampus**. 
+**Penjelasan Rancangan:**
+Sistem ini melayani tiga pengguna utama: **Anggota** (mahasiswa/dosen), **Pustakawan** (petugas meja layanan), dan **Admin** (pengelola sistem), serta terhubung dengan **Sistem Akademik Kampus** untuk memastikan keabsahan data anggota. 
 
-Beberapa fitur penting saling terikat, contohnya: saat anggota ingin meminjam, memperpanjang, atau memesan buku, sistem wajib mengecek status keanggotaannya terlebih dahulu. Selain itu, fitur bayar denda hanya akan muncul jika anggota terlambat mengembalikan buku.
+Beberapa tindakan memiliki aturan yang mengikat: saat anggota ingin meminjam, memperpanjang, atau memesan antrean buku, sistem wajib memeriksa keaktifan akun anggota terlebih dahulu. Selain itu, pembayaran denda hanya akan aktif jika ada buku yang dikembalikan dalam kondisi telat.
 
 ---
 
-### 2.2 Urutan Proses Peminjaman Buku Mandiri (Sequence Diagram: Peminjaman)
-Diagram ini memperlihatkan bagaimana bagian-bagian dalam sistem saling mengirim pesan dan bekerja sama saat anggota meminjam buku.
+### 2.2 Langkah Komunikasi Saat Meminjam Buku (Sequence Diagram: Peminjaman)
+
+Diagram ini memperlihatkan bagaimana bagian-bagian di dalam aplikasi saling bertukar informasi saat melayani anggota yang meminjam buku sendiri.
 
 ![Sequence Diagram Peminjaman Buku](img/sequence-peminjaman.png)
 
-*File PlantUML:* [`sequence-peminjaman.puml`](sequence-peminjaman.puml)
+*Berkas PlantUML:* [`sequence-peminjaman.puml`](sequence-peminjaman.puml)
 
-**Penjelasan Singkat:**
-Bagian Peminjaman bertindak sebagai pengatur utama. Ia akan bertanya ke bagian Akun untuk memastikan status keanggotaan aktif, mengecek batas kuota pinjaman, lalu memeriksa ketersediaan buku. 
+**Penjelasan Langkah:**
+Bagian Peminjaman bertindak sebagai koordinator utama. Bagian ini meminta verifikasi keaktifan akun ke bagian Autentikasi Akun, memastikan kuota pinjaman belum penuh, lalu berkoordinasi dengan bagian Reservasi dan bagian Katalog Buku. 
 
-Di sini ada dua kemungkinan: kalau buku itu ternyata pesanan (*reservasi*) yang siap diambil, status reservasinya diubah jadi selesai tanpa mengganggu stok rak. Tapi kalau itu peminjaman biasa, sistem langsung mengurangi stok buku yang ada di katalog.
+Jika buku yang dipinjam berasal dari pesanan yang sudah disiapkan, status pesanannya diselesaikan tanpa mengubah jumlah buku di rak. Namun jika peminjaman dilakukan secara biasa, jumlah stok buku di rak langsung dikurangi satu. Setelah semua beres, bukti peminjaman dan tanggal batas kembali ditampilkan kepada anggota.
 
 ---
 
-### 2.3 Urutan Proses Pengembalian dan Pembayaran Denda (Sequence Diagram: Pengembalian)
-Diagram ini menunjukkan proses komunikasi antar-bagian di dalam sistem saat pustakawan melayani pengembalian buku di meja layanan.
+### 2.3 Langkah Komunikasi Saat Mengembalikan Buku (Sequence Diagram: Pengembalian)
+
+Diagram ini memperlihatkan urutan komunikasi antarbagian di dalam sistem saat petugas memproses pengembalian buku di meja sirkulasi.
 
 ![Sequence Diagram Pengembalian Buku](img/sequence-pengembalian.png)
 
-*File PlantUML:* [`sequence-pengembalian.puml`](sequence-pengembalian.puml)
+*Berkas PlantUML:* [`sequence-pengembalian.puml`](sequence-pengembalian.puml)
 
-**Penjelasan Singkat:**
-Saat petugas memindai buku, bagian Pengembalian mengambil data peminjaman asli, mencatat tanggal kembali, dan menghitung denda jika terlambat. Setelah denda dibayar tunai, sistem mengecek daftar antrean: apakah ada orang yang menunggu buku tersebut? Jika ada, buku ditahan selama 2 hari untuk orang itu; jika tidak ada, stok buku di katalog langsung ditambah kembali.
+**Penjelasan Langkah:**
+Saat petugas memindai buku, bagian Pengembalian dan Denda mengambil data pinjaman dari bagian Peminjaman untuk mencatat tanggal kembali serta menghitung denda jika terlambat. Setelah pembayaran tunai diterima oleh petugas, bagian ini menghubungi bagian Reservasi untuk memeriksa antrean. 
+
+Jika ada pemesan yang sedang menunggu, buku langsung disisihkan selama 2 hari untuk orang tersebut. Namun jika antrean kosong, bagian Katalog Buku akan menambahkan 1 stok buku ke rak agar bisa dipinjam oleh orang lain.
 
 ---
 
-## 3. Tabel Ringkasan Hubungan Modul dan Diagram
+## 3. Tabel Peran Setiap Bagian dalam Diagram
 
-Tabel berikut merangkum bagaimana setiap bagian (*modul*) sistem ikut berperan di dalam berbagai diagram di atas:
+Tabel berikut merangkum bagaimana ketujuh bagian (*modul*) sistem saling berbagi peran dalam diagram-diagram di atas:
 
-| Nama Modul | Peran di Activity Diagram | Peran di Sequence Diagram | Fitur Utama yang Dikerjakan |
+| Nama Bagian (Modul) | Muncul di Activity Diagram Sebagai | Muncul di Sequence Diagram Sebagai | Tugas Utama yang Dijalankan |
 |---|---|---|---|
-| **Autentikasi Akun** | Jalur/Kolom khusus | Berperan sebagai `Auth` | Login, daftar akun, cek keaktifan anggota |
-| **Integrasi Akademik** | Jalur/Kolom khusus | Terhubung lewat bagian Akun | Validasi data kampus bersama Sistem Akademik |
-| **Katalog Buku** | Jalur/Kolom khusus | Berperan sebagai `Catalog` | Cari buku, kelola data buku, update stok |
-| **Peminjaman** | Jalur/Kolom khusus | Berperan sebagai `Loan` | Peminjaman mandiri, perpanjangan waktu pinjam |
-| **Pengembalian dan Denda**| Jalur/Kolom khusus | Berperan sebagai `ReturnFine` | Proses kembali buku, pembayaran denda tunai |
-| **Reservasi** | Jalur/Kolom khusus | Berperan sebagai `Resv` | Pesan buku, atur antrean dan alokasi buku |
-| **Laporan** | Disebutkan dalam ruang lingkup umum | Disebutkan di fitur umum | Melihat dan mengunduh laporan bulanan (PDF) |
+| **Autentikasi Akun** | Jalur khusus *Autentikasi Akun* | Komponen `Auth` | Pendaftaran, login, dan memastikan akun anggota masih aktif. |
+| **Integrasi Akademik** | Jalur khusus *Integrasi Akademik* | Penghubung data kampus | Memvalidasi NIM mahasiswa atau NIP dosen ke sistem universitas. |
+| **Katalog Buku** | Jalur khusus *Katalog Buku* | Komponen `Catalog` | Mengelola data buku, pencarian, dan menambah/mengurangi stok buku. |
+| **Peminjaman** | Jalur khusus *Peminjaman* | Komponen `Loan` | Melayani pinjam mandiri dan perpanjangan masa pinjam. |
+| **Pengembalian dan Denda** | Jalur khusus *Pengembalian dan Denda* | Komponen `ReturnFine` | Mencatat buku kembali, menghitung denda, dan melunasi bayar tunai. |
+| **Reservasi** | Jalur khusus *Reservasi* | Komponen `Resv` | Mengatur antrean pesanan buku dan menahan buku selama 2 hari. |
+| **Laporan** | Cakupan fitur umum | Fitur laporan | Mengumpulkan rekap data bulanan otomatis untuk diunduh admin (PDF). |

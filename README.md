@@ -1,85 +1,90 @@
 # Dokumentasi Sistem PerpusKu
 
-Selamat datang di repositori dokumentasi resmi **PerpusKu**, sistem manajemen sirkulasi peminjaman buku perpustakaan kampus terintegrasi.
+Selamat datang di repositori dokumentasi resmi **PerpusKu**, sistem peminjaman buku perpustakaan kampus.
 
-Repositori ini telah direstrukturisasi secara menyeluruh menggunakan pendekatan ***Computational Thinking*** (Dekomposisi, Pengenalan Pola, Abstraksi, dan Perancangan Algoritma) untuk mengubah catatan mentah (*raw data*) menjadi dokumentasi yang modular, terstandarisasi, dan bebas dari duplikasi logika (*single source of truth*).
-
----
-
-## 1. Tentang PerpusKu
-
-**PerpusKu** adalah sistem peminjaman buku perpustakaan kampus berbasis web yang telah beroperasi penuh (*production*) di perpustakaan pusat. Sistem ini menggantikan sistem pencatatan manual buku besar konvensional yang sebelumnya rawan kesalahan kalkulasi denda dan hilangnya pelacakan koleksi buku. 
-
-Melalui PerpusKu, anggota perpustakaan (mahasiswa dan dosen) dapat melakukan peminjaman buku secara mandiri (*self-service*) melalui pemindaian kode di kios perpustakaan maupun ponsel pintar, memantau masa pinjam, serta melakukan reservasi buku yang sedang habis tanpa antre di meja layanan.
+Repositori ini merapikan tumpukan catatan mentah (*raw data*) yang sebelumnya tercecer menjadi susunan dokumentasi yang jelas, rapi, dan mudah dipahami. Seluruh aturan dan cara kerja sistem diatur agar konsisten, tidak tumpang tindih, dan dapat dipahami oleh siapa saja tanpa harus membaca kode programnya.
 
 ---
 
-## 2. Peta Navigasi Dokumentasi
+## 1. Mengenal PerpusKu
 
-Dokumentasi PerpusKu disusun dengan struktur folder modular dan terarah sesuai kebutuhan pembaca:
+**PerpusKu** adalah aplikasi web yang digunakan untuk mengelola peminjaman buku di perpustakaan pusat kampus. Sistem ini dibuat untuk menggantikan pencatatan manual di buku besar yang sebelumnya sering menimbulkan masalah, seperti salah menghitung denda atau petugas kesulitan melacak siapa yang sedang meminjam buku.
+
+Dengan PerpusKu:
+- **Mahasiswa dan dosen** bisa mencari koleksi buku dari laptop atau ponsel, meminjam buku sendiri di perpustakaan cukup dengan memindai kode buku, melihat daftar pinjaman, memperpanjang masa pinjam, atau memesan antrean buku jika sedang habis.
+- **Petugas perpustakaan (pustakawan)** terbantu dalam memproses pengembalian buku, melihat hitungan denda otomatis, menerima pembayaran tunai di meja layanan, dan mengelola stok buku.
+- **Pengelola sistem (admin)** dapat memantau jalannya perpustakaan melalui laporan bulanan yang rapi (dalam bentuk PDF) serta mengelola akun anggota.
+
+---
+
+## 2. Peta Dokumen dan Isi Repositori
+
+Dokumentasi ini disusun ke dalam beberapa bagian agar pembaca bisa langsung menuju halaman yang dibutuhkan:
 
 ```
 perpusku/
-├── README.md                      # Pintu masuk utama dokumentasi (file ini)
-├── identitas.md                   # Identitas mahasiswa dan status pengerjaan
-├── SOAL.md                        # Panduan tugas dan ketentuan pengerjaan
-├── raw/                           # Arsip data dan catatan mentah asli (sumber primer)
+├── README.md                      # Halaman utama dokumentasi (file ini)
+├── identitas.md                   # Data diri mahasiswa dan status pengerjaan tugas
+├── SOAL.md                        # Panduan tugas awal
+├── raw/                           # Catatan mentah asli sebelum dirapikan
 └── docs/
-    ├── glosarium.md               # Kamus istilah baku resmi PerpusKu
-    ├── produk/                    # Dokumentasi tingkat tinggi (level bisnis & pengguna)
-    │   ├── ringkasan.md           # Latar belakang, cara pemakaian, dan arsitektur produk
-    │   ├── pengguna-dan-aturan.md # Peran pengguna dan tata tertib/aturan sirkulasi
-    │   └── fitur-dan-goal.md      # Matriks ketercapaian fitur F-01..F-08 dan goal G-01..G-09
-    ├── modules/                   # Spesifikasi teknis modular (level arsitektur & developer)
-    │   ├── README.md              # Peta keterhubungan modul, matriks caller-callee, dan lapisan sistem
-    │   ├── autentikasi-akun.md    # Registrasi, login, peran, dan definisi keanggotaan aktif
-    │   ├── integrasi-akademik.md  # Pembacaan data sivitas akademika kampus
-    │   ├── katalog-buku.md        # Data koleksi buku, pencarian, dan seluruh aturan perubahan stok
-    │   ├── peminjaman.md          # Validasi peminjaman mandiri dan perpanjangan masa pinjam
-    │   ├── pengembalian-denda.md  # Sirkulasi pengembalian, rumus denda, dan pembayaran tunai
-    │   ├── reservasi.md           # Antrean pemesanan FIFO, penahanan 2 hari, dan status reservasi
-    │   └── laporan.md             # Rekapitulasi statistik bulanan otomatis dan ekspor PDF
-    └── diagrams/                  # Pemodelan visual sistem (PlantUML dan render gambar)
-        ├── README.md              # Dokumentasi seluruh diagram dan penjelasan deskriptif
-        ├── activity-registrasi-peminjaman.puml  # Activity diagram registrasi & pinjam
-        ├── activity-pengembalian-reservasi.puml # Activity diagram kembali, denda, & reservasi
-        ├── use-case.puml                        # UML use case diagram
-        ├── sequence-peminjaman.puml             # UML sequence diagram peminjaman mandiri
-        ├── sequence-pengembalian.puml           # UML sequence diagram pengembalian & alokasi
-        └── img/                                 # Direktori gambar hasil render (.png)
+    ├── glosarium.md               # Kamus istilah resmi agar tidak salah paham
+    ├── produk/                    # Penjelasan umum produk dan aturan perpustakaan
+    │   ├── ringkasan.md           # Latar belakang, cara pakai, dan cara kerja umum
+    │   ├── pengguna-dan-aturan.md # Siapa saja penggunanya dan aturan peminjaman buku
+    │   └── fitur-dan-goal.md      # Daftar fitur yang sudah jadi dan sasaran produk
+    ├── modules/                   # Penjelasan rinci cara kerja sistem per modul
+    │   ├── README.md              # Ringkasan pembagian modul dan hubungannya
+    │   ├── autentikasi-akun.md    # Cara pendaftaran, login, dan syarat keaktifan akun
+    │   ├── integrasi-akademik.md  # Pengecekan data mahasiswa/dosen ke sistem kampus
+    │   ├── katalog-buku.md        # Pengelolaan data buku dan aturan perubahan stok
+    │   ├── peminjaman.md          # Aturan peminjaman mandiri dan perpanjangan waktu
+    │   ├── pengembalian-denda.md  # Alur pengembalian, hitungan denda, dan bayar tunai
+    │   ├── reservasi.md           # Aturan antrean buku dan penahanan buku 2 hari
+    │   └── laporan.md             # Pembuatan rekap bulanan otomatis dan unduh PDF
+    └── diagrams/                  # Gambar alur dan rancangan sistem (PlantUML & PNG)
+        ├── README.md              # Penjelasan seluruh gambar diagram
+        ├── activity-registrasi-peminjaman.puml  # Diagram alur: pendaftaran & pinjam buku
+        ├── activity-pengembalian-reservasi.puml # Diagram alur: kembali buku, denda, & antrean
+        ├── use-case.puml                        # Diagram peran pengguna dan fiturnya
+        ├── sequence-peminjaman.puml             # Diagram urutan kerja saat meminjam buku
+        ├── sequence-pengembalian.puml           # Diagram urutan kerja saat mengembalikan buku
+        └── img/                                 # Kumpulan gambar diagram siap lihat (.png)
 ```
 
 ---
 
-## 3. Ringkasan Dokumen Utama
+## 3. Panduan Membaca Dokumen
 
-### A. Untuk Pihak Perpustakaan & Pengguna Umum
-- 📖 [**Ringkasan Produk**](docs/produk/ringkasan.md): Memahami latar belakang transformasi perpustakaan, cara akses mandiri di kios, serta gambaran keamanan sistem.
-- 📋 [**Pengguna dan Aturan Operasional**](docs/produk/pengguna-dan-aturan.md): Membaca kebijakan resmi masa pinjam (7 hari), kuota pinjam (maksimal 3 buku), sanksi denda keterlambatan (Rp1.000/hari), serta tata cara reservasi buku.
-- 🎯 [**Fitur dan Goal Produk**](docs/produk/fitur-dan-goal.md): Memantau status implementasi 8 fitur utama dan ketercapaian 9 sasaran produk.
-- 📚 [**Glosarium Istilah**](docs/glosarium.md): Daftar definisi baku untuk istilah *Anggota*, *Pustakawan*, *Admin*, *Stok Tersedia vs Ditahan*, *Jatuh Tempo*, hingga *Denda Berjalan*.
+### A. Untuk Pihak Perpustakaan dan Pembaca Umum
+Bagi Anda yang ingin memahami aturan perpustakaan dan cara kerja aplikasi secara umum:
+- [**Ringkasan Produk**](docs/produk/ringkasan.md): Latar belakang perpustakaan, cara anggota memakai aplikasi, dan gambaran umum sistem.
+- [**Pengguna dan Aturan Operasional**](docs/produk/pengguna-dan-aturan.md): Panduan lengkap tentang siapa saja penggunanya, batas pinjam 3 buku, masa pinjam 7 hari, denda Rp1.000/hari, dan aturan antrean buku.
+- [**Fitur dan Goal Produk**](docs/produk/fitur-dan-goal.md): Daftar lengkap fitur yang sudah berfungsi dan sasaran apa saja yang sudah tercapai.
+- [**Glosarium Istilah**](docs/glosarium.md): Kamus kata-kata penting seperti arti *Anggota*, *Peminjam*, *Buku Ditahan*, *Jatuh Tempo*, hingga *Denda Berjalan*.
 
-### B. Untuk Pengembang Sistem & Arsitek Perangkat Lunak
-- 🗺️ [**Peta Arsitektur Modul**](docs/modules/README.md): Mempelajari pembagian 7 modul independen, lapisan sistem (*layered architecture*), kepemilikan tunggal aturan bisnis, serta analisis dampak perubahan.
-- ⚙️ **Rincian Modul Spesifik:**
+### B. Untuk Pengembang dan Pembaca Teknis
+Bagi Anda yang ingin mengetahui bagaimana sistem bekerja di balik layar:
+-  [**Peta Pembagian Modul**](docs/modules/README.md): Gambaran bagaimana sistem dipecah menjadi 7 bagian mandiri, siapa yang memanggil siapa, dan aturan perubahan data.
+-  **Detail Modul:**
   - [Autentikasi Akun](docs/modules/autentikasi-akun.md) | [Integrasi Akademik](docs/modules/integrasi-akademik.md) | [Katalog Buku](docs/modules/katalog-buku.md)
   - [Peminjaman](docs/modules/peminjaman.md) | [Pengembalian dan Denda](docs/modules/pengembalian-denda.md) | [Reservasi](docs/modules/reservasi.md) | [Laporan](docs/modules/laporan.md)
-- 📊 [**Diagram Alur dan UML**](docs/diagrams/README.md): Mempelajari visualisasi pemodelan *activity diagram* (berbasis swimlane modul), *use case diagram*, dan *sequence diagram* interaksi antarmodul.
+-  [**Diagram Alur dan UML**](docs/diagrams/README.md): Gambar visual cara kerja sistem lengkap dengan penjelasan langkah demi langkah.
 
 ---
 
-## 4. Penanganan Temuan Kritis (GitHub Issues)
+## 4. Hasil Pemeriksaan Catatan Mentah (Penyelesaian Masalah)
 
-Dalam proses penyusunan dokumentasi ini, 5 masalah inkonsistensi data mentah telah dianalisis dan diselesaikan secara transparan:
+Saat membaca catatan mentah pertama kali, ditemukan 5 hal yang tidak konsisten atau membingungkan. Masalah tersebut telah diselesaikan dalam dokumentasi ini:
 
-1. **Inkonsistensi Istilah Pengguna:** Dibakukan secara terpusat pada [Glosarium](docs/glosarium.md), menghilangkan kerancuan tumpang tindih antara *anggota*, *member*, *peminjam*, dan *user*.
-2. **Kekosongan Aturan Perpanjangan Otomatis:** Perpanjangan manual didokumentasikan lengkap dengan validasi denda berjalan, sementara perpanjangan otomatis dicatat sebagai fitur yang membutuhkan konfirmasi teknis lebih lanjut.
-3. **Ketiadaan Fitur Notifikasi Email (Goal G-08):** Goal tetap dicatat, namun secara kritis dijelaskan bahwa tabel `AKUN` belum memiliki kolom email dan fitur pengirimnya belum ada.
-4. **Kontradiksi Pembayaran Denda Online vs Tunai (Goal G-09):** Pembayaran operasional riil dibakukan secara tunai di meja pustakawan sesuai seluruh dokumen alur dan ketiadaan skema pembayaran elektronik.
-5. **Perbedaan Masa Pinjam (7 vs 14 hari) dan Kuota (3 vs 5 buku):** Digunakan nilai `raw/01` (7 hari dan 3 buku) sebagai nilai sementara yang konsisten dengan aturan durasi perpanjangan +7 hari.
+1. **Sebutan Pengguna yang Campur Aduk:** Kata *anggota*, *member*, *peminjam*, dan *user* sebelumnya dipakai bergantian tanpa penjelasan. Semuanya kini dibakukan lewat [Glosarium](docs/glosarium.md).
+2. **Perpanjangan Otomatis yang Kurang Jelas:** Perpanjangan manual dijelaskan lengkap, sedangkan perpanjangan otomatis dicatat sebagai fitur yang membutuhkan kejelasan teknis lebih lanjut.
+3. **Sasaran Notifikasi Email Belum Punya Data Pendukung:** Goal notifikasi email sempat dicatat selesai di bahan mentah, tetapi tabel data pengguna belum memiliki kolom alamat email dan fiturnya belum tersedia.
+4. **Bayar Denda Online vs Bayar Tunai:** Sasaran sempat menyebutkan bayar online, namun kenyataan alur operasional di perpustakaan seluruhnya memakai pembayaran tunai langsung di meja petugas.
+5. **Perbedaan Masa Pinjam dan Kuota:** Terdapat perbedaan antara aturan (7 hari & 3 buku) dengan alur simulasi (14 hari & 5 buku). Dokumentasi ini memakai aturan 7 hari dan maksimal 3 buku sebagai nilai sementara yang konsisten dengan tambahan perpanjangan 7 hari.
 
 ---
 
 ## 5. Informasi Mahasiswa
 
-Identitas pengerjaan dan informasi repositori tercatat pada berkas [identitas.md](identitas.md).
+Data mahasiswa pengelola repositori ini tercantum pada berkas [identitas.md](identitas.md).

@@ -1,89 +1,88 @@
-# Peta Modul PerpusKu
+# Peta Pembagian Bagian (Modul) PerpusKu
 
-Dokumentasi PerpusKu dibagi menjadi tujuh modul berdasarkan tanggung jawab
-utama masing-masing. Setiap aturan didefinisikan **satu kali** di modul
-pemiliknya. Modul lain cukup merujuk ke sana dan tidak menulis ulang aturannya.
+Agar PerpusKu tidak rumit dan membingungkan, PerpusKu ini dibagi menjadi **tujuh modul (bagian kerja)** berdasarkan fungsi masing-masing. 
 
-## Daftar Modul
+Prinsip penting yang diterapkan adalah: **setiap aturan hanya ditulis satu kali di bagian yang berhak mengaturnya**. Bagian lain yang membutuhkan aturan tersebut cukup merujuk ke bagian pemiliknya, tanpa membuat aturan baru yang bisa berujung saling bertentangan.
 
-| Modul | Tanggung jawab utama |
+---
+
+## 1. Daftar Tujuh Bagian PerpusKu
+
+| Nama Bagian (Modul) | Tugas Utama yang Diurus |
 |---|---|
-| [Autentikasi Akun](autentikasi-akun.md) | Registrasi, login, peran, status akun, dan definisi keanggotaan aktif |
-| [Integrasi Akademik](integrasi-akademik.md) | Pembacaan NIM/NIP dan masa berlaku dari data akademik kampus |
-| [Katalog Buku](katalog-buku.md) | Data buku, pencarian, dan seluruh aturan perubahan stok |
-| [Peminjaman](peminjaman.md) | Peminjaman dan perpanjangan |
-| [Pengembalian dan Denda](pengembalian-denda.md) | Pengembalian, rumus denda, dan pembayaran |
-| [Reservasi](reservasi.md) | Antrean, penahanan buku, dan status reservasi |
-| [Laporan](laporan.md) | Rekap bulanan dan unduhan PDF |
+| [**Autentikasi Akun**](autentikasi-akun.md) | Mengurus pendaftaran anggota baru, login semua pengguna, pembagian peran, dan memastikan apakah akun masih aktif atau sedang dibekukan. |
+| [**Integrasi Akademik**](integrasi-akademik.md) | Menghubungkan PerpusKu dengan sistem kampus untuk memeriksa keabsahan NIM mahasiswa atau NIP dosen serta masa studinya. |
+| [**Katalog Buku**](katalog-buku.md) | Menyimpan data buku, melayani pencarian buku, dan mengatur kapan stok buku di rak harus bertambah atau berkurang. |
+| [**Peminjaman**](peminjaman.md) | Memeriksa syarat boleh pinjam, mencatat transaksi peminjaman mandiri, dan melayani perpanjangan masa pinjam. |
+| [**Pengembalian dan Denda**](pengembalian-denda.md) | Mencatat buku yang kembali, menghitung denda keterlambatan secara otomatis, dan mencatat pembayaran tunai. |
+| [**Reservasi**](reservasi.md) | Mengatur antrean pesanan buku yang sedang habis, menahan buku selama 2 hari saat buku kembali, dan membatalkan pesanan yang lewat waktu. |
+| [**Laporan**](laporan.md) | Mengumpulkan data secara otomatis setiap awal bulan untuk membuat laporan rekapitulasi yang bisa diunduh oleh admin dalam format PDF. |
 
-## Pemilik Aturan
+---
 
-Aturan berikut muncul berulang di dokumen mentah. Di dokumentasi ini,
-masing-masing hanya didefinisikan di satu modul.
+## 2. Siapa yang Mengatur Aturan Penting?
 
-| Aturan | Muncul di dokumen mentah | Didefinisikan di |
+Berdasarkan dari raw document, aturan-aturan di bawah ini sering ditulis berulang di berbagai tempat dengan penjelasan yang berbeda-beda. Di dokumentasi ini, setiap aturan sudah ditempatkan di satu bagian resmi:
+
+| Aturan Penting | Sebelumnya Muncul di Catatan Mentah | Sekarang Resmi Diatur di |
 |---|---|---|
-| Keanggotaan aktif | `raw/01` §4, `raw/02` §3, `raw/03` FLOW 3, 4A, 6A | [Autentikasi Akun](autentikasi-akun.md#aturan) |
-| Perubahan stok | `raw/02` §5, `raw/03` FLOW 3, 5, 6B | [Katalog Buku](katalog-buku.md#aturan) |
-| Tarif dan rumus denda | `raw/01` §4, `raw/02` §6, `raw/03` FLOW 4A, 5 | [Pengembalian dan Denda](pengembalian-denda.md#aturan-denda-definisi-tunggal) |
-| Menahan buku untuk antrean (2 hari) | `raw/01` §4, `raw/03` FLOW 5, 6B, `raw/04` F-06 | [Reservasi](reservasi.md#aturan) |
-| Masa pinjam, kuota, dan batas perpanjangan | `raw/01` §4, `raw/03` FLOW 3, 4A | [Peminjaman](peminjaman.md#nilai-aturan) |
+| **Syarat Keanggotaan Aktif** | `raw/01` §4, `raw/02` §3, `raw/03` FLOW 3, 4A, 6A | [Modul Autentikasi Akun](autentikasi-akun.md#aturan) |
+| **Aturan Kapan Stok Berubah** | `raw/02` §5, `raw/03` FLOW 3, 5, 6B | [Modul Katalog Buku](katalog-buku.md#aturan) |
+| **Tarif dan Rumus Hitung Denda** | `raw/01` §4, `raw/02` §6, `raw/03` FLOW 4A, 5 | [Modul Pengembalian dan Denda](pengembalian-denda.md#aturan-denda-definisi-tunggal) |
+| **Penyimpanan Buku Pesanan (2 Hari)** | `raw/01` §4, `raw/03` FLOW 5, 6B, `raw/04` F-06 | [Modul Reservasi](reservasi.md#aturan) |
+| **Masa Pinjam (7 Hari) & Kuota (3 Buku)** | `raw/01` §4, `raw/03` FLOW 3, 4A | [Modul Peminjaman](peminjaman.md#nilai-aturan) |
 
-## Hubungan Antar Modul
+---
 
-### Siapa Memanggil Siapa
+## 3. Alur Hubungan Antarbagian
 
-| Pemanggil | Dipanggil | Untuk apa |
+### Siapa Memanggil Siapa?
+
+Setiap bagian saling terhubung untuk menyelesaikan suatu proses. Tabel di bawah ini memperlihatkan siapa yang meminta bantuan dan apa yang diminta:
+
+| Bagian Peminta | Bagian yang Dimintai Bantuan | Alasan / Keperluan |
 |---|---|---|
-| Autentikasi Akun | Integrasi Akademik | Mencocokkan NIM/NIP dan mengambil masa berlaku saat registrasi |
-| Peminjaman | Autentikasi Akun | Memeriksa keanggotaan aktif |
-| Peminjaman | Katalog Buku | Membaca dan mengubah stok |
-| Peminjaman | Reservasi | Memeriksa reservasi `siap_diambil`, menyelesaikannya, dan memeriksa antrean saat perpanjangan |
-| Peminjaman | Pengembalian dan Denda | Memeriksa denda saat perpanjangan |
-| Pengembalian dan Denda | Peminjaman | Mencari transaksi berjalan dan mengisi tanggal kembali |
-| Pengembalian dan Denda | Reservasi | Menahan buku jika ada antrean |
-| Pengembalian dan Denda | Katalog Buku | Mengubah stok |
-| Reservasi | Autentikasi Akun | Memeriksa keanggotaan aktif |
-| Reservasi | Katalog Buku | Membaca dan mengubah stok |
-| Katalog Buku | Peminjaman, Reservasi | Memeriksa transaksi aktif sebelum buku dihapus |
-| Laporan | Peminjaman, Pengembalian dan Denda, Katalog Buku | Membaca data untuk rekap (tanpa mengubah) |
+| **Autentikasi Akun** | Integrasi Akademik | Memeriksa apakah calon anggota benar terdaftar di kampus saat registrasi. |
+| **Peminjaman** | Autentikasi Akun | Memastikan akun anggota masih aktif sebelum mengizinkan pinjam atau perpanjang. |
+| **Peminjaman** | Katalog Buku | Mengecek ketersediaan buku di rak dan mengurangi stoknya saat dipinjam. |
+| **Peminjaman** | Reservasi | Mengecek apakah buku yang diambil adalah pesanan anggota yang sudah siap, dan mengecek antrean saat ada yang ingin memperpanjang pinjaman. |
+| **Peminjaman** | Pengembalian dan Denda | Memeriksa apakah anggota punya denda yang belum dibayar saat mengajukan perpanjangan. |
+| **Pengembalian dan Denda** | Peminjaman | Mencari data pinjaman lama untuk mencatat tanggal kembali buku. |
+| **Pengembalian dan Denda** | Reservasi | Menanyakan apakah ada orang yang sedang mengantre untuk buku yang baru saja dikembalikan. |
+| **Pengembalian dan Denda** | Katalog Buku | Meminta stok rak ditambah 1 jika buku yang kembali tidak ada yang mengantre. |
+| **Reservasi** | Autentikasi Akun | Memastikan akun anggota aktif sebelum membuat pesanan antrean buku. |
+| **Reservasi** | Katalog Buku | Mengecek stok buku dan memberi tahu katalog saat ada buku yang harus ditahan untuk pemesan. |
+| **Katalog Buku** | Peminjaman & Reservasi | Memeriksa apakah buku masih dipakai sebelum pustakawan menghapus data buku dari katalog. |
+| **Laporan** | Peminjaman, Pengembalian, & Katalog | Membaca data transaksi dan daftar buku untuk membuat ringkasan bulanan (hanya membaca, tidak mengubah data apa pun). |
 
-Peran dari Modul Autentikasi Akun juga membatasi akses ke Katalog Buku
-(pustakawan), Pengembalian dan Denda (pustakawan), dan Laporan (admin).
+---
 
-### Lapisan Modul
+### Tingkatan Susunan PerpusKu
 
-1. **Lapisan pelaporan:** Laporan (hanya membaca data dari lapisan transaksi
-   dan data dasar).
-2. **Lapisan transaksi:** Peminjaman, Pengembalian dan Denda, Reservasi
-   (saling memanggil sesuai tabel di atas).
-3. **Lapisan data dasar:** Autentikasi Akun dan Katalog Buku (dipanggil oleh
-   lapisan transaksi).
-4. **Lapisan sumber eksternal:** Integrasi Akademik (hanya dipanggil oleh
-   Autentikasi Akun).
+Untuk memudahkan pemahaman, hubungan ketujuh bagian di atas dapat dibayangkan seperti tingkatan gedung:
 
-Modul di lapisan bawah tidak bergantung pada aturan modul di lapisan atas,
-kecuali Katalog Buku yang memeriksa transaksi aktif sebelum buku dihapus.
+1. **Tingkat Laporan (Paling Atas):** [Laporan](laporan.md) — bagian ini hanya membaca rangkuman dari bagian-bagian di bawahnya tanpa pernah mengubah data.
+2. **Tingkat Pelayanan Sehari-hari:** [Peminjaman](peminjaman.md), [Pengembalian dan Denda](pengembalian-denda.md), dan [Reservasi](reservasi.md) — bagian yang melayani interaksi langsung dengan anggota dan pustakawan setiap hari.
+3. **Tingkat Data Pokok:** [Autentikasi Akun](autentikasi-akun.md) dan [Katalog Buku](katalog-buku.md) — bagian penyedia data utama (data pengguna dan data buku) yang dibutuhkan oleh tingkat pelayanan.
+4. **Tingkat Sumber Luar:** [Integrasi Akademik](integrasi-akademik.md) — pintu penghubung untuk membaca data mahasiswa/dosen dari sistem universitas.
 
-## Alasan Pengelompokan
+---
 
-Modul dipisahkan berdasarkan data dan aturan yang berubah bersama. Setiap modul
-memiliki satu tabel utama dari `raw/02` §2: AKUN (Autentikasi Akun), BUKU
-(Katalog Buku), PEMINJAMAN (Peminjaman), DENDA (Pengembalian dan Denda), dan
-RESERVASI (Reservasi). Integrasi Akademik dipisah karena membaca sistem di luar
-PerpusKu. Laporan dipisah karena hanya membaca data dan berjalan terjadwal.
+## 4. Alasan Mengapa Dibagi Menjadi Modul-Modul Ini
 
-## Dampak Perubahan Modul
+Bagian-bagian ini dipisahkan berdasarkan data yang mereka kelola:
+- Data akun dipisahkan dari data buku agar pengaturan pengguna tidak tercampur dengan koleksi fisik.
+- Peminjaman dipisahkan dari pengembalian karena peminjaman dilakukan mandiri oleh anggota di awal, sedangkan pengembalian dilayani oleh pustakawan di akhir.
+- Reservasi dipisahkan secara khusus karena memiliki aturan antrean dan waktu tunggu penahanan buku sendiri.
+- Pembuatan laporan dipisahkan tersendiri karena tugasnya hanya membaca data secara berkala tiap awal bulan, sehingga tidak mengganggu proses transaksi sehari-hari.
 
-**Contoh:** perpustakaan menaikkan tarif denda dari Rp1.000 menjadi Rp2.000 per
-hari.
+---
 
-- Yang diubah hanya satu baris di
-  [Pengembalian dan Denda](pengembalian-denda.md#aturan-denda-definisi-tunggal).
-- Perpanjangan di [Peminjaman](peminjaman.md) ikut memakai tarif baru untuk
-  denda berjalan, karena hanya merujuk ke aturan tersebut.
-- [Laporan](laporan.md) otomatis menjumlahkan denda dengan nilai baru.
+## 5. Contoh Nyata Manfaat Pembagian Modul Ini
 
-Di dokumen mentah, perubahan yang sama harus dilakukan di tiga tempat
-(`raw/01` §4, `raw/03` FLOW 4A, dan FLOW 5). Jika salah satu terlewat,
-dokumentasi akan saling bertentangan.
+**Contoh Kasus:** Pihak kampus memutuskan untuk menaikkan tarif denda keterlambatan dari Rp1.000 menjadi Rp2.000 per hari.
+
+- **Dengan dokumentasi modular yang rapi:**
+  Kita **hanya perlu mengubah satu angka** di satu tempat, yaitu di halaman [Modul Pengembalian dan Denda](pengembalian-denda.md#aturan-denda-definisi-tunggal). Secara otomatis, bagian perpanjangan di Modul Peminjaman dan bagian rekapitulasi di Modul Laporan akan langsung mengikuti aturan baru tersebut karena mereka merujuk ke tempat yang sama.
+- **Sebelum dirapikan (pada catatan mentah):**
+  Perubahan tarif denda harus dicari dan diubah secara manual di tiga tempat terpisah (`raw/01`, `raw/03` FLOW 4A, dan `raw/03` FLOW 5). Jika salah satu terlewat, aturan perpustakaan akan saling bertentangan dan membingungkan petugas.
