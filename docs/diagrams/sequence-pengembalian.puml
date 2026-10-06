@@ -1,0 +1,68 @@
+@startuml sequence-pengembalian
+skinparam shadowing false
+skinparam monochrome false
+skinparam SequenceMessageAlign center
+skinparam BoxPadding 10
+skinparam ParticipantPadding 10
+skinparam SequenceLifeLineBorderColor #2C3E50
+skinparam SequenceLifeLineBackgroundColor #FDEDEC
+skinparam ArrowColor #2C3E50
+
+autonumber
+
+title Sequence Diagram: Pengembalian Buku, Denda Keterlambatan, dan Alokasi Reservasi
+
+actor "Pustakawan" as Librarian
+box "Sistem PerpusKu" #FAFAFA
+  participant "Pengembalian dan Denda" as ReturnFine
+  participant "Peminjaman" as Loan
+  participant "Reservasi" as Resv
+  participant "Katalog Buku" as Catalog
+end box
+
+Librarian -> ReturnFine : pindaiKodeBuku(id_buku)
+activate ReturnFine
+
+ReturnFine -> Loan : cariPeminjamanBerjalan(id_buku)
+activate Loan
+Loan --> ReturnFine : dataPeminjaman(id_peminjaman, tgl_jatuh_tempo)
+
+ReturnFine -> Loan : catatTanggalKembali(id_peminjaman, hariIni)
+Loan --> ReturnFine : konfirmasiTanggalKembali
+deactivate Loan
+
+ReturnFine -> ReturnFine : hitungKeterlambatan(hariIni, tgl_jatuh_tempo)
+
+opt Buku Terlambat Dikembalikan (hari terlambat > 0)
+  ReturnFine -> ReturnFine : catatDenda(id_peminjaman, denda = hariTerlambat x 1000, status = "belum_lunas")
+  ReturnFine --> Librarian : tampilkanJumlahDenda(jumlahDenda)
+  Librarian -> ReturnFine : terimaPembayaranTunai(id_denda)
+  ReturnFine -> ReturnFine : ubahStatusDenda("lunas")
+end
+
+ReturnFine -> Resv : laporPengembalianBuku(id_buku)
+activate Resv
+
+alt Ada Antrean Reservasi Menunggu untuk Buku Ini
+  Resv -> Resv : ambilAntreanTerawal()
+  Resv -> Resv : ubahStatusMenjadiSiapDiambil(batas_ambil = hariIni + 2 hari)
+  Resv -> Catalog : laporBukuDitahan(id_buku)
+  note right of Catalog
+    Sesuai aturan stok di Katalog Buku:
+    Buku ditahan untuk pemesan antrean,
+    sehingga stok_tersedia di rak tidak bertambah.
+  end note
+  Resv --> ReturnFine : bukuDialokasikanKeReservasi
+else Tidak Ada Antrean Reservasi
+  Resv --> ReturnFine : antreanKosong
+  deactivate Resv
+  ReturnFine -> Catalog : tambahStokTersedia(id_buku, +1)
+  activate Catalog
+  Catalog --> ReturnFine : konfirmasiStokBertambah
+  deactivate Catalog
+end
+
+ReturnFine --> Librarian : konfirmasiPengembalianSelesai()
+deactivate ReturnFine
+
+@enduml

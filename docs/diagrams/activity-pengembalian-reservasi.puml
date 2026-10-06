@@ -1,0 +1,68 @@
+@startuml activity-pengembalian-reservasi
+skinparam shadowing false
+skinparam monochrome false
+skinparam ActivityFontSize 12
+skinparam ActivityBorderColor #2C3E50
+skinparam ActivityBackgroundColor #F8F9FA
+skinparam ArrowColor #2C3E50
+skinparam PartitionBorderColor #4A90E2
+skinparam PartitionBackgroundColor #FFFFFF
+
+title Activity Diagram: Pengembalian Buku, Perhitungan Denda, dan Alokasi Reservasi
+
+|#E8F4FD|Pustakawan|
+start
+:Pindai kode buku yang dikembalikan di meja layanan;
+
+|#FDEDEC|Pengembalian dan Denda|
+:Terima kode buku;
+
+|#FEF9E7|Peminjaman|
+:Cari transaksi peminjaman berjalan untuk buku ini;
+if (Transaksi peminjaman ditemukan?) then (Tidak)
+  |#E8F4FD|Pustakawan|
+  :Tampilkan pesan\n"Peminjaman tidak ditemukan";
+  stop
+else (Ya)
+  |#FEF9E7|Peminjaman|
+  :Catat tanggal_kembali = hari ini;
+
+  |#FDEDEC|Pengembalian dan Denda|
+  :Hitung hari terlambat\n(tanggal_kembali - tanggal_jatuh_tempo);
+  if (Hari terlambat > 0?) then (Ya, terlambat)
+    :Hitung denda = hari terlambat x Rp1.000;
+    :Catat denda di tabel DENDA\n(status = belum_lunas);
+    |#E8F4FD|Pustakawan|
+    :Tampilkan jumlah denda keterlambatan;
+    :Terima pembayaran denda tunai dari peminjam;
+    |#FDEDEC|Pengembalian dan Denda|
+    :Ubah status denda menjadi lunas;
+  else (Tidak, tepat waktu)
+  endif
+
+  |#FDEDEC|Pengembalian dan Denda|
+  :Laporkan pengembalian buku ke Modul Reservasi;
+
+  |#FFF3E0|Reservasi|
+  :Periksa antrean reservasi berstatus menunggu\nuntuk buku ini;
+  if (Ada antrean reservasi menunggu?) then (Ya, ada antrean)
+    :Ambil reservasi menunggu dengan waktu_reservasi paling awal;
+    :Ubah status reservasi menjadi siap_diambil;
+    :Tetapkan batas_ambil = hari ini + 2 hari;
+    |#EBF5FB|Katalog Buku|
+    :Buku ditahan untuk pemesan pertama\n(stok_tersedia tidak bertambah);
+    note right
+      Sesuai aturan stok di Modul Katalog Buku:
+      saat ada antrean, buku ditahan sehingga
+      stok_tersedia di rak tetap tidak berubah.
+    end note
+  else (Tidak ada antrean)
+    |#EBF5FB|Katalog Buku|
+    :Tambah stok_tersedia buku sebanyak 1;
+  endif
+
+  |#E8F4FD|Pustakawan|
+  :Tampilkan pesan konfirmasi\npengembalian selesai diproses;
+  stop
+endif
+@enduml

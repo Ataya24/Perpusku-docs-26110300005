@@ -1,0 +1,79 @@
+@startuml use-case
+skinparam shadowing false
+skinparam monochrome false
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+skinparam UseCaseFontSize 12
+skinparam UseCaseBorderColor #2C3E50
+skinparam UseCaseBackgroundColor #FFFFFF
+skinparam ArrowColor #2C3E50
+
+left to right direction
+
+actor "Anggota" as Member
+actor "Pustakawan" as Librarian
+actor "Admin" as Administrator
+actor "Sistem Akademik Kampus" as AcademicSystem <<Sistem Eksternal>>
+
+rectangle "Sistem PerpusKu" {
+  ' Modul Autentikasi Akun & Integrasi Akademik
+  usecase "Registrasi Akun" as UC_Register
+  usecase "Login Sistem" as UC_Login
+  usecase "Validasi Data Akademik" as UC_ValidateAcademic
+  usecase "Pemeriksaan Keanggotaan Aktif" as UC_CheckActiveMember
+  usecase "Pembekuan & Pengaktifan Akun" as UC_FreezeAccount
+
+  ' Modul Katalog Buku
+  usecase "Pencarian Katalog Buku" as UC_SearchBook
+  usecase "Pengelolaan Data Buku\n(Tambah, Ubah, Hapus)" as UC_ManageCatalog
+
+  ' Modul Peminjaman
+  usecase "Peminjaman Buku Mandiri" as UC_Borrow
+  usecase "Perpanjangan Masa Pinjam" as UC_Extend
+
+  ' Modul Pengembalian dan Denda
+  usecase "Pengembalian Buku" as UC_Return
+  usecase "Pembayaran Denda Tunai" as UC_PayFine
+
+  ' Modul Reservasi
+  usecase "Pemesanan (Reservasi) Buku" as UC_Reserve
+  usecase "Pembatalan Reservasi Kedaluwarsa" as UC_CancelReservation
+
+  ' Modul Laporan
+  usecase "Melihat & Mengunduh\nLaporan Bulanan (PDF)" as UC_Report
+}
+
+' Relasi Aktor Anggota
+Member --> UC_Register
+Member --> UC_Login
+Member --> UC_SearchBook
+Member --> UC_Borrow
+Member --> UC_Extend
+Member --> UC_Reserve
+
+' Relasi Aktor Pustakawan
+Librarian --> UC_Login
+Librarian --> UC_ManageCatalog
+Librarian --> UC_Return
+Librarian --> UC_PayFine
+Librarian --> UC_CancelReservation
+
+' Relasi Aktor Admin
+Administrator --> UC_Login
+Administrator --> UC_FreezeAccount
+Administrator --> UC_Report
+
+' Relasi Wajib (Sebelumnya Include)
+UC_Register ..> UC_ValidateAcademic : <<wajib cek data>>
+UC_Borrow ..> UC_CheckActiveMember : <<wajib cek aktif>>
+UC_Extend ..> UC_CheckActiveMember : <<wajib cek aktif>>
+UC_Reserve ..> UC_CheckActiveMember : <<wajib cek aktif>>
+
+' Relasi Sistem Eksternal
+UC_ValidateAcademic --> AcademicSystem
+
+' Relasi Opsional / Kondisional (Sebelumnya Extend)
+UC_PayFine ..> UC_Return : <<jika terlambat>>
+UC_Reserve ..> UC_SearchBook : <<jika stok habis>>
+
+@enduml

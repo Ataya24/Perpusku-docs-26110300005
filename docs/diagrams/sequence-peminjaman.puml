@@ -1,0 +1,59 @@
+@startuml sequence-peminjaman
+skinparam shadowing false
+skinparam monochrome false
+skinparam SequenceMessageAlign center
+skinparam BoxPadding 10
+skinparam ParticipantPadding 10
+skinparam SequenceLifeLineBorderColor #2C3E50
+skinparam SequenceLifeLineBackgroundColor #E8F4FD
+skinparam ArrowColor #2C3E50
+
+autonumber
+
+title Sequence Diagram: Peminjaman Buku Mandiri oleh Anggota
+
+actor "Anggota" as Member
+box "Sistem PerpusKu" #FAFAFA
+  participant "Peminjaman" as Loan
+  participant "Autentikasi Akun" as Auth
+  participant "Reservasi" as Resv
+  participant "Katalog Buku" as Catalog
+end box
+
+Member -> Loan : pindaiKodeBuku(id_buku)
+activate Loan
+
+Loan -> Auth : periksaKeanggotaanAktif(id_member)
+activate Auth
+Auth --> Loan : statusKeanggotaan (aktif)
+deactivate Auth
+
+Loan -> Loan : periksaBatasKuota(maks 3 buku)
+
+Loan -> Resv : periksaReservasiSiapDiambil(id_member, id_buku)
+activate Resv
+
+alt Anggota memiliki reservasi siap_diambil
+  Resv --> Loan : adaReservasi(id_reservasi)
+  Loan -> Resv : selesaikanReservasi(id_reservasi)
+  note right of Resv
+    Status reservasi diubah jadi 'selesai'.
+    Stok rak tidak dikurangi karena buku
+    sudah ditahan sebelumnya.
+  end note
+  Resv --> Loan : konfirmasiSelesai
+else Peminjaman biasa (tidak ada reservasi)
+  Resv --> Loan : tidakAdaReservasi
+  deactivate Resv
+  Loan -> Catalog : kurangiStokTersedia(id_buku)
+  activate Catalog
+  Catalog --> Loan : konfirmasiStokDikurangi
+  deactivate Catalog
+end
+
+Loan -> Loan : simpanTransaksi(tgl_pinjam = hari ini, tgl_jatuh_tempo = hari ini + 7)
+
+Loan --> Member : tampilkanBuktiPinjam(id_peminjaman, tgl_jatuh_tempo)
+deactivate Loan
+
+@enduml

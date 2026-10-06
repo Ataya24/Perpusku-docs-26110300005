@@ -1,0 +1,92 @@
+@startuml activity-registrasi-peminjaman
+skinparam shadowing false
+skinparam monochrome false
+skinparam ActivityFontSize 12
+skinparam ActivityBorderColor #2C3E50
+skinparam ActivityBackgroundColor #F8F9FA
+skinparam ArrowColor #2C3E50
+skinparam PartitionBorderColor #4A90E2
+skinparam PartitionBackgroundColor #FFFFFF
+
+title Activity Diagram: Registrasi Akun dan Peminjaman Buku Mandiri
+
+|#E8F4FD|Calon Anggota / Anggota|
+start
+:Buka aplikasi PerpusKu;
+if (Sudah memiliki akun?) then (Belum)
+  |#E8F4FD|Calon Anggota / Anggota|
+  :Isi formulir registrasi\n(NIM/NIP, Nama, Kata Sandi);
+
+  |#F3E5F5|Integrasi Akademik|
+  :Cocokkan NIM/NIP dengan data akademik kampus;
+  if (NIM/NIP terdaftar?) then (Tidak)
+    |#E8F4FD|Calon Anggota / Anggota|
+    :Tampilkan pesan\n"NIM/NIP tidak terdaftar";
+    stop
+  else (Ya)
+    |#E8F8F5|Autentikasi Akun|
+    if (NIM/NIP sudah memiliki akun?) then (Ya)
+      |#E8F4FD|Calon Anggota / Anggota|
+      :Tampilkan pesan\n"Akun sudah ada";
+      stop
+    else (Belum)
+      :Ambil masa berlaku dari data akademik\n(tanggal akhir studi / kontrak);
+      :Simpan akun baru\n(peran=anggota, status=aktif);
+      |#E8F4FD|Calon Anggota / Anggota|
+      :Arahkan ke halaman login;
+    endif
+  endif
+else (Sudah)
+endif
+
+|#E8F4FD|Calon Anggota / Anggota|
+:Login dengan NIM/NIP dan kata sandi;
+:Pindai kode buku di kios mandiri atau ponsel;
+
+|#FEF9E7|Peminjaman|
+:Terima permintaan peminjaman buku;
+
+|#E8F8F5|Autentikasi Akun|
+:Periksa keanggotaan aktif\n(status tidak dibekukan & masa berlaku belum lewat);
+if (Keanggotaan aktif?) then (Tidak)
+  |#E8F4FD|Calon Anggota / Anggota|
+  :Tampilkan pesan\n"Keanggotaan tidak aktif";
+  stop
+else (Ya)
+  |#FEF9E7|Peminjaman|
+  :Hitung jumlah buku yang sedang dipinjam;
+  if (Sudah mencapai kuota 3 buku?) then (Ya)
+    |#E8F4FD|Calon Anggota / Anggota|
+    :Tampilkan pesan\n"Batas kuota pinjam tercapai";
+    stop
+  else (Belum)
+    |#FFF3E0|Reservasi|
+    :Periksa apakah anggota memiliki reservasi\nberstatus siap_diambil untuk buku ini;
+    if (Ada reservasi siap_diambil?) then (Ya)
+      :Ubah status reservasi menjadi selesai;
+      note right
+        Buku sudah ditahan sebelumnya,
+        sehingga stok_tersedia di rak
+        tidak dikurangi lagi.
+      end note
+    else (Tidak)
+      |#EBF5FB|Katalog Buku|
+      :Periksa ketersediaan buku di rak;
+      if (stok_tersedia > 0?) then (Tidak / Habis)
+        |#E8F4FD|Calon Anggota / Anggota|
+        :Tampilkan pesan "Buku sedang habis";
+        :Tawarkan reservasi buku;
+        stop
+      else (Ya, tersedia)
+        :Kurangi stok_tersedia sebanyak 1;
+      endif
+    endif
+
+    |#FEF9E7|Peminjaman|
+    :Catat transaksi peminjaman baru\n(tanggal_pinjam = hari ini,\ntanggal_jatuh_tempo = hari ini + 7 hari,\njumlah_perpanjangan = 0);
+    |#E8F4FD|Calon Anggota / Anggota|
+    :Tampilkan bukti peminjaman mandiri\nbeserta tanggal jatuh tempo;
+    stop
+  endif
+endif
+@enduml
