@@ -10,17 +10,17 @@ Repositori ini memuat dokumentasi terstruktur hasil analisis dan modularisasi da
 
 Dokumentasi sistem dikelompokkan ke dalam tiga bagian utama:
 
-### 📖 Dokumentasi Produk & Kebijakan
+### Dokumentasi Tentang PerpusKu 
 * [**Ringkasan Produk**](docs/produk/ringkasan.md) — Latar belakang, alur pemakaian umum, arsitektur dasar, dan keamanan data.
 * [**Pengguna dan Aturan Operasional**](docs/produk/pengguna-dan-aturan.md) — Peran pengguna, kebijakan masa pinjam (7 hari), kuota (maksimal 3 buku), denda, dan aturan reservasi.
 * [**Fitur dan Goal Produk**](docs/produk/fitur-dan-goal.md) — Matriks implementasi fitur (F-01 s.d. F-08) dan ketercapaian target sistem (G-01 s.d. G-09).
 * [**Glosarium Istilah**](docs/glosarium.md) — Standarisasi istilah sistem (*Anggota*, *Peminjam*, *Stok Tersedia*, *Buku Ditahan*, dsb.).
 
-### ⚙️ Arsitektur & Spesifikasi Modul
+###  Arsitektur & Modul
 * [**Peta Modul (README)**](docs/modules/README.md) — Pembagian 7 modul independen, diagram pemanggilan antarmodul, dan arsitektur sistem.
 * **Detail Modul:** [Autentikasi Akun](docs/modules/autentikasi-akun.md) | [Integrasi Akademik](docs/modules/integrasi-akademik.md) | [Katalog Buku](docs/modules/katalog-buku.md) | [Peminjaman](docs/modules/peminjaman.md) | [Pengembalian dan Denda](docs/modules/pengembalian-denda.md) | [Reservasi](docs/modules/reservasi.md) | [Laporan](docs/modules/laporan.md)
 
-### 📊 Diagram Alur & Pemodelan UML
+### Diagram Alur & Pemodelan UML
 * [**Dokumentasi Diagram (README)**](docs/diagrams/README.md) — Penjelasan naratif untuk seluruh pemodelan visual sistem.
 * **Activity Diagram:** [Registrasi & Peminjaman](docs/diagrams/activity-registrasi-peminjaman.puml) | [Pengembalian & Reservasi](docs/diagrams/activity-pengembalian-reservasi.puml)
 * **UML Diagram:** [Use Case Diagram](docs/diagrams/use-case.puml) | [Sequence Peminjaman](docs/diagrams/sequence-peminjaman.puml) | [Sequence Pengembalian](docs/diagrams/sequence-pengembalian.puml)
