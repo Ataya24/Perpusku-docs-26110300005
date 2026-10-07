@@ -60,4 +60,4 @@ Lima inkonsistensi utama pada dokumen mentah diselesaikan dengan keputusan berik
 
 ## 4. Informasi Mahasiswa
 
-Data mahasiswa pengembang repositori ini tercantum pada [identitas.md](identitas.md).
+Identitas mahasiswa tercantum pada [identitas.md](identitas.md).
