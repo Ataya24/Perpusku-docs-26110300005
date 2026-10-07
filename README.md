@@ -1,63 +1,28 @@
-# PerpusKu
+# PerpusKu: Soal Dokumentasi
 
-**PerpusKu** adalah aplikasi web manajemen sirkulasi perpustakaan kampus yang menggantikan sistem pencatatan manual buku besar. Sistem ini mengintegrasikan layanan peminjaman mandiri (*self-service*), reservasi antrean buku, perhitungan denda otomatis, dan penyusunan laporan bulanan.
+Repo ini berisi bahan untuk soal **merapikan dokumentasi sistem peminjaman buku perpustakaan (PerpusKu)**. Produknya sudah jadi. Tugasmu mengubah teks mentah menjadi dokumentasi yang rapi, lengkap dengan modul, diagram, UML, dan pengelolaan di GitHub.
 
-Repositori ini memuat dokumentasi terstruktur hasil analisis dan modularisasi dari dokumen mentah (`raw/`) menggunakan pendekatan *Computational Thinking*.
+## Mulai dari Sini
 
----
+1. **Buat repo pribadimu dari template ini.** Panduan langkah demi langkah ada di [identitas.md](identitas.md). Isi file itu setelah repo-mu jadi.
+2. **Baca instruksi lengkap** di [SOAL.md](SOAL.md): tugas, aturan, dan cara pengumpulan.
+3. **Baca bahan mentah** di folder [raw/](raw/).
 
-## 1. Navigasi Dokumentasi
-
-Dokumentasi sistem dikelompokkan ke dalam tiga bagian utama:
-
-### Dokumentasi Produk & Kebijakan
-* [**Ringkasan Produk**](docs/produk/ringkasan.md) — Latar belakang, alur pemakaian umum, arsitektur dasar, dan keamanan data.
-* [**Pengguna dan Aturan Operasional**](docs/produk/pengguna-dan-aturan.md) — Peran pengguna, kebijakan masa pinjam (7 hari), kuota (maksimal 3 buku), denda, dan aturan reservasi.
-* [**Fitur dan Goal Produk**](docs/produk/fitur-dan-goal.md) — Matriks implementasi fitur (F-01 s.d. F-08) dan ketercapaian target sistem (G-01 s.d. G-09).
-* [**Glosarium Istilah**](docs/glosarium.md) — Standarisasi istilah sistem (*Anggota*, *Peminjam*, *Stok Tersedia*, *Buku Ditahan*, dsb.).
-
-### Arsitektur & Spesifikasi Modul
-* [**Peta Modul (README)**](docs/modules/README.md) — Pembagian 7 modul independen, diagram pemanggilan antarmodul, dan arsitektur sistem.
-* **Detail Modul:** [Autentikasi Akun](docs/modules/autentikasi-akun.md) | [Integrasi Akademik](docs/modules/integrasi-akademik.md) | [Katalog Buku](docs/modules/katalog-buku.md) | [Peminjaman](docs/modules/peminjaman.md) | [Pengembalian dan Denda](docs/modules/pengembalian-denda.md) | [Reservasi](docs/modules/reservasi.md) | [Laporan](docs/modules/laporan.md)
-
-### Diagram Alur & Pemodelan UML
-* [**Dokumentasi Diagram (README)**](docs/diagrams/README.md) — Penjelasan naratif untuk seluruh pemodelan visual sistem.
-* **Activity Diagram:** [Registrasi & Peminjaman](docs/diagrams/activity-registrasi-peminjaman.puml) | [Pengembalian & Reservasi](docs/diagrams/activity-pengembalian-reservasi.puml)
-* **UML Diagram:** [Use Case Diagram](docs/diagrams/use-case.puml) | [Sequence Peminjaman](docs/diagrams/sequence-peminjaman.puml) | [Sequence Pengembalian](docs/diagrams/sequence-pengembalian.puml)
-
----
-
-## 2. Struktur Repositori
+## Isi Repo
 
 ```
-perpusku/
-├── README.md                      # Dokumentasi 
-├── identitas.md                   # Identitas mahasiswa 
-├── SOAL.md                        # Panduan pengerjaan
-├── raw/                           # Dokumen teks mentah 
-└── docs/
-    ├── glosarium.md               # Istilah-istlah yang digunakan untuk dokumentasi PerpusKu
-    ├── produk/                    
-    ├── modules/                   # Berisi 7 modul PerpusKu
-    └── diagrams/                  # Berisi diagram PerpusKu
+.
+├── README.md        (file ini)
+├── SOAL.md          (instruksi lengkap)
+├── identitas.md     (panduan membuat repo dan data dirimu)
+└── raw/             (bahan mentah, jangan diubah)
+    ├── 01-deskripsi-produk.txt
+    ├── 02-cara-kerja-teknis.txt
+    ├── 03-flow-aplikasi.txt
+    ├── 04-daftar-fitur.txt
+    └── 05-goal.txt
 ```
 
----
+## Catatan
 
-## 3. Resolusi Masalah (GitHub Issues)
-
-Lima inkonsistensi utama pada dokumen mentah diselesaikan dengan keputusan berikut:
-
-| Masalah | Temuan Dokumen Mentah | Keputusan Dokumentasi |
-|---|---|---|
-| **Istilah Pengguna** | *Anggota*, *member*, *peminjam*, dan *user* dipakai tanpa definisi baku. | Dibakukan di [Glosarium](docs/glosarium.md): *Anggota* untuk peran resmi, *peminjam* untuk transaksi aktif. |
-| **Perpanjangan Otomatis** | Disebutkan di `raw/03` FLOW 4B tetapi tidak memiliki parameter validasi teknis. | Perpanjangan manual didokumentasikan penuh; perpanjangan otomatis dicatat butuh konfirmasi lanjutan. |
-| **Goal Notifikasi Email (G-08)** | Ditandai tercapai pada `raw/05`, namun tabel `AKUN` tidak memiliki kolom alamat email. | Tetap dicatat sebagai target sistem, dengan catatan skema basis data belum mendukung. |
-| **Goal Bayar Online (G-09)** | Ditandai tercapai pada `raw/05`, tetapi semua alur operasional menyatakan tunai di meja. | Prosedur resmi dibakukan tunai di meja sirkulasi; pembayaran online dicatat belum diimplementasikan. |
-| **Masa Pinjam & Kuota** | Konflik antara `raw/01` (7 hari, 3 buku) dan `raw/03` (14 hari, 5 buku). | Menggunakan aturan `raw/01` (7 hari, 3 buku) sebagai nilai acuan sementara yang konsisten dengan perpanjangan +7 hari. |
-
----
-
-## 4. Informasi Mahasiswa
-
-Identitas mahasiswa tercantum pada [identitas.md](identitas.md).
+Saat mengerjakan soal, isi `README.md` ini akan kamu ganti menjadi pintu masuk dokumentasi hasil kerjamu. Instruksi soal tetap tersimpan di `SOAL.md`.
