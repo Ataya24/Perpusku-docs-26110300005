@@ -31,15 +31,15 @@ Dokumentasi sistem dikelompokkan ke dalam tiga bagian utama:
 
 ```
 perpusku/
-├── README.md                      # Dokumentasi utama (file ini)
-├── identitas.md                   # Identitas mahasiswa dan status pengerjaan
-├── SOAL.md                        # Panduan tugas
-├── raw/                           # Dokumen teks mentah asli
+├── README.md                      # Dokumentasi 
+├── identitas.md                   # Identitas mahasiswa 
+├── SOAL.md                        # Panduan pengerjaan
+├── raw/                           # Dokumen teks mentah 
 └── docs/
-    ├── glosarium.md               # Kamus istilah resmi
-    ├── produk/                    # Dokumentasi bisnis & aturan operasional
-    ├── modules/                   # Spesifikasi teknis 7 modul sistem
-    └── diagrams/                  # Berkas PlantUML (.puml) dan gambar render (.png)
+    ├── glosarium.md               # Istilah-istlah yang digunakan untuk dokumentasi PerpusKu
+    ├── produk/                    
+    ├── modules/                   # Berisi 7 modul PerpusKu
+    └── diagrams/                  # Berisi diagram PerpusKu
 ```
 
 ---
