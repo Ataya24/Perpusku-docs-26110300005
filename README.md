@@ -1,4 +1,4 @@
-# Dokumentasi Sistem PerpusKu
+# PerpusKu
 
 **PerpusKu** adalah aplikasi web manajemen sirkulasi perpustakaan kampus yang menggantikan sistem pencatatan manual buku besar. Sistem ini mengintegrasikan layanan peminjaman mandiri (*self-service*), reservasi antrean buku, perhitungan denda otomatis, dan penyusunan laporan bulanan.
 
